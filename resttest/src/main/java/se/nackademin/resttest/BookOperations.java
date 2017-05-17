@@ -13,9 +13,8 @@ import se.nackademin.resttest.model.SingleBook;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class BookOperations {
+public class BookOperations extends BaseOperations {
     
-private static final String BASE_URL = "http://localhost:8080/librarytest-rest/";
 private static final Logger LOG = Logger.getLogger(BookOperations.class.getName());
     
     public Response getBookResponse(int id) {
@@ -46,19 +45,19 @@ private static final Logger LOG = Logger.getLogger(BookOperations.class.getName(
     }
     
     public Response postBook(SingleBook singleBook) {
-        Object[] bookValues = new Object[]{singleBook.getBook().getId(), singleBook.getBook().getTitle(), singleBook.getBook().getAuthor(),
-                singleBook.getBook().getDescription(), singleBook.getBook().getDescription(), singleBook.getBook().getIsbn(), 
-                singleBook.getBook().getNbOfPage()};
-        LOG.log(Level.INFO, "POST book Response with the values: {0}, '{1}', '{2}', '{3}', {4}, {5}", bookValues);
+        Object[] bookValues = new Object[]{singleBook.getBook().getId(), singleBook.getBook().getTitle(), singleBook.getBook().getAuthor().getFirstName() + 
+                " " + singleBook.getBook().getAuthor().getLastName(), singleBook.getBook().getDescription(), singleBook.getBook().getIsbn(), 
+                singleBook.getBook().getNbrPages()};
+        LOG.log(Level.INFO, "POST book Response with the values: id:{0}, title:{1}, author name:{2}, description:{3}, isbn:{4}, pages:{5}", bookValues);
         String resourceName = "books";
         Response response = given().contentType(ContentType.JSON).body(singleBook).post(BASE_URL + resourceName);
         return response;
     }
     public Response putBook(SingleBook singleBook) {
         Object[] bookValues = new Object[]{singleBook.getBook().getId(), singleBook.getBook().getTitle(), singleBook.getBook().getAuthor(),
-                singleBook.getBook().getDescription(), singleBook.getBook().getDescription(), singleBook.getBook().getIsbn(), 
-                singleBook.getBook().getNbOfPage()};
-        LOG.log(Level.INFO, "PUT book Response with the values: {0}, '{1}', '{2}', '{3}', {4}, {5}", bookValues);
+                singleBook.getBook().getDescription(), singleBook.getBook().getIsbn(), 
+                singleBook.getBook().getNbrPages()};
+        LOG.log(Level.INFO, "PUT book Response with the values: id:{0}, title:{1}, author name:{2}, description:{3}, isbn:{4}, pages:{5}", bookValues);
         String resourceName = "books";
         Response response = given().contentType(ContentType.JSON).body(singleBook).put(BASE_URL + resourceName);
         return response;
@@ -72,17 +71,21 @@ private static final Logger LOG = Logger.getLogger(BookOperations.class.getName(
     }
     
     public SingleBook createRandomBook(int id, Author author) {
-        LOG.log(Level.INFO, "Create random book with the id {0} and author '{1}'", new Object[]{id, author.getName()});
-        Book book = new Book();
-        String description = UUID.randomUUID().toString();
-        String title = UUID.randomUUID().toString();
-        String isbn = UUID.randomUUID().toString();
-        int nbOfPage = new Random().nextInt(500);
+        LOG.log(Level.INFO, "Create random book with the id {0} and author {1}", new Object[]{id, author.getFirstName() + " " + author.getLastName()});
+        String description = "desc";
+        String title = "title";
+        String isbn = "73432634";
+        String publicationDate = "2017-01-01";
+        int totalNbrCopies = 1;
+        int nbrPages = 50;
         
+        Book book = new Book();
         book.setDescription(description);
         book.setTitle(title);
         book.setIsbn(isbn);
-        book.setNbOfPage(nbOfPage);
+        book.setNbrPages(nbrPages);
+        book.setPublicationDate(publicationDate);
+        book.setTotalNbrCopies(totalNbrCopies);
         book.setId(id);
         book.setAuthor(author);
         SingleBook singleBook = new SingleBook(book);
@@ -99,12 +102,12 @@ private static final Logger LOG = Logger.getLogger(BookOperations.class.getName(
         String description = UUID.randomUUID().toString();
         String title = UUID.randomUUID().toString();
         String isbn = UUID.randomUUID().toString();
-        int nbOfPage = new Random().nextInt(500);
+        int nbrPages = 100;
         
         book.setDescription(description);
         book.setTitle(title);
         book.setIsbn(isbn);
-        book.setNbOfPage(nbOfPage);
+        book.setNbrPages(nbrPages);
         return book;
     }
     
