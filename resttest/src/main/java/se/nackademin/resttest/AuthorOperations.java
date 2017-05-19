@@ -6,8 +6,8 @@ import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,20 +56,20 @@ public class AuthorOperations extends BaseOperations {
         String resourceName = "authors/" + id;
         String path = BASE_URL + resourceName;
         LOG.log(Level.INFO, "Path: {0}", path);
-        Response response = given().contentType(ContentType.JSON).get(BASE_URL + resourceName);
+        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
         return response;
     }
     public Response getAllAuthorsResponse() {
         LOG.log(Level.INFO, "GET all authors Response");
         String resourceName = "authors";
-        Response response = given().contentType(ContentType.JSON).get(BASE_URL + resourceName);
+        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
         return response;
     }
     
     public Response getAuthorsByBookIdResponse(int id) {
         LOG.log(Level.INFO, "GET authors of the book with id {0}", id);
         String resourceName = "books/" + Integer.toString(id) + "/authors";
-        Response response = given().contentType(ContentType.JSON).get(BASE_URL + resourceName);
+        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
         return response;
     }
     
@@ -85,7 +85,7 @@ public class AuthorOperations extends BaseOperations {
     public Response postAuthorToBookResponse(int id, SingleAuthor singleAuthor) {
         LOG.log(Level.INFO, "POST the author '{0}'  to the book with id {1}", new Object[]{singleAuthor.getAuthor().getFirstName() + 
                 " " + singleAuthor.getAuthor().getLastName(), id});
-        String resourceName = "books/" + Integer.toBinaryString(id) + "/authors";
+        String resourceName = "books/" + Integer.toString(id) + "/authors";
         Response response = given().contentType(ContentType.JSON).body(singleAuthor).post(BASE_URL + resourceName);
         return response;
     }
@@ -147,6 +147,12 @@ public class AuthorOperations extends BaseOperations {
         LOG.log(Level.INFO, "PUT author to book with id {0} Response", bookId);
         String resourceName ="books/" + bookId + "/authors";
         Response response = given().contentType(ContentType.JSON).body(jsonString).put(BASE_URL + resourceName);
+        return response;
+    }
+    public Response putAuthorToBookResponse(int bookId, List<Author> authors) {
+        LOG.log(Level.INFO, "PUT author to book with id {0} Response", bookId);
+        String resourceName ="books/" + bookId + "/authors";
+        Response response = given().contentType(ContentType.JSON).body(authors).put(BASE_URL + resourceName);
         return response;
     }
     

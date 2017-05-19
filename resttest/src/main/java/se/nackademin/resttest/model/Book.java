@@ -1,14 +1,34 @@
 package se.nackademin.resttest.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Book {
     private Integer id;
-    private Author author;
+    private List<Author> author;
     private String description;
     private String isbn;
     private Integer nbrPages;
     private String publicationDate;
     private Integer totalNbrCopies;
     private String title;
+    
+    public Book() {
+        author = new ArrayList<>();
+    }
+
+    public Book(HashMap map, List<Author> authors) {
+        id = (Integer) map.get("id");
+        description = (String) map.get("description");
+        isbn = (String) map.get("isbn");
+        nbrPages = (Integer) map.get("nbrPages");
+        publicationDate = (String) map.get("publicationDate");
+        totalNbrCopies = (Integer) map.get("totalNbrCopies");
+        title = (String) map.get("title");
+        this.author = authors;      
+    }
 
     /**
      * @return the id
@@ -27,7 +47,7 @@ public class Book {
     /**
      * @return the author
      */
-    public Author getAuthor() {
+    public List<Author> getAuthor() {
         return author;
     }
 
@@ -35,7 +55,14 @@ public class Book {
      * @param author the author to set
      */
     public void setAuthor(Author author) {
-        this.author = author;
+        this.author.clear();
+        this.author.add(author);
+    }
+    /**
+     * @param authors the author to set
+     */
+    public void setAuthor(List<Author> authors) {
+        this.author = authors;
     }
 
     /**

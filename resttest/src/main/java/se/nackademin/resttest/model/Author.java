@@ -1,11 +1,26 @@
 package se.nackademin.resttest.model;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 public class Author {
     private Integer id;
     private String bio;
     private String country;
     private String firstName;
     private String lastName;
+    
+    public Author() {
+        
+    }
+
+    public Author(Map<String, Object> map) {
+        id = (Integer) map.get("id");
+        bio = (String) map.get("bio");
+        country = (String) map.get("country");
+        firstName = (String) map.get("firstName");
+        lastName = (String) map.get("lastName");
+    }
 
     /**
      * @return the id
