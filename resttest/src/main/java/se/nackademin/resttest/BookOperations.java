@@ -7,6 +7,7 @@ import com.jayway.restassured.response.Response;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import se.nackademin.resttest.model.Author;
 import se.nackademin.resttest.model.AuthorsMap;
@@ -18,6 +19,11 @@ import java.util.logging.Logger;
 public class BookOperations extends BaseOperations {
     
 private static final Logger LOG = Logger.getLogger(BookOperations.class.getName());
+private AuthorOperations authorOperations;
+
+    public BookOperations() {
+        authorOperations = new AuthorOperations();
+    }
     
     public Response getBookResponse(int id) {
         LOG.log(Level.INFO, "GET book Response with id {0}", id);
@@ -39,18 +45,13 @@ private static final Logger LOG = Logger.getLogger(BookOperations.class.getName(
         return response;
     }
     
-    public Response getAuthorsFromBookResponse(int id) {
-        LOG.log(Level.INFO, "GET authors Response from the book with id {0}", id);
-        String resourceName = "books/" + id + "/authors";
-        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
-        return response;
-    }
-    
     public Response postBook(SingleBook singleBook) {
-        Object[] bookValues = new Object[]{singleBook.getBook().getId(), singleBook.getBook().getTitle(), singleBook.getBook().getAuthor().get(0).getFirstName() + 
-                " " + singleBook.getBook().getAuthor().get(0).getLastName(), singleBook.getBook().getDescription(), singleBook.getBook().getIsbn(), 
+        List<Author> authorList = singleBook.getBook().getAuthorList();
+        Object[] bookValues = new Object[]{singleBook.getBook().getId(), singleBook.getBook().getTitle(), authorList.get(0).getFirstName() + 
+                " " + authorList.get(0).getLastName(), singleBook.getBook().getDescription(), singleBook.getBook().getIsbn(), 
                 singleBook.getBook().getNbrPages()};
         LOG.log(Level.INFO, "POST book Response with the values: id:{0}, title:{1}, author name:{2}, description:{3}, isbn:{4}, pages:{5}", bookValues);
+        
         String resourceName = "books";
         Response response = given().contentType(ContentType.JSON).body(singleBook).post(BASE_URL + resourceName);
         return response;
@@ -60,6 +61,7 @@ private static final Logger LOG = Logger.getLogger(BookOperations.class.getName(
                 singleBook.getBook().getDescription(), singleBook.getBook().getIsbn(), 
                 singleBook.getBook().getNbrPages()};
         LOG.log(Level.INFO, "PUT book Response with the values: id:{0}, title:{1}, author name:{2}, description:{3}, isbn:{4}, pages:{5}", bookValues);
+        
         String resourceName = "books";
         Response response = given().contentType(ContentType.JSON).body(singleBook).put(BASE_URL + resourceName);
         return response;
@@ -72,11 +74,11 @@ private static final Logger LOG = Logger.getLogger(BookOperations.class.getName(
         return deleteResponse;
     }
     
-    public SingleBook createRandomBook(int id, Author author) {
-        LOG.log(Level.INFO, "Create random book with the id {0} and author {1}", new Object[]{id, author.getFirstName() + " " + author.getLastName()});
+    public Book createRandomBook(int id) {
+        LOG.log(Level.INFO, "Create random book with the id {0}", id);
         String description = "desc";
         String title = "title";
-        String isbn = "73432634";
+        String isbn = "734-326-34";
         String publicationDate = "2017-01-01";
         int totalNbrCopies = 1;
         int nbrPages = 50;
@@ -89,9 +91,7 @@ private static final Logger LOG = Logger.getLogger(BookOperations.class.getName(
         book.setPublicationDate(publicationDate);
         book.setTotalNbrCopies(totalNbrCopies);
         book.setId(id);
-        book.setAuthor(author);
-        SingleBook singleBook = new SingleBook(book);
-        return singleBook;
+        return book;
     }
     public Book getBook(int id) {
         LOG.log(Level.INFO, "GET book with id {0}", id);
@@ -99,32 +99,15 @@ private static final Logger LOG = Logger.getLogger(BookOperations.class.getName(
         Book book = given().accept(ContentType.JSON).get(BASE_URL + resourceName).jsonPath().getObject("book", Book.class);
         return book;
     }
-    public Book setRandomValuesToBook(Book book) {
-        LOG.log(Level.INFO, "Set random values to book with id {0}", book.getId());
-        String description = UUID.randomUUID().toString();
-        String title = UUID.randomUUID().toString();
-        String isbn = UUID.randomUUID().toString();
-        int nbrPages = 100;
-        
-        book.setDescription(description);
-        book.setTitle(title);
-        book.setIsbn(isbn);
-        book.setNbrPages(nbrPages);
-        return book;
-    }
-    
-    public Response putAuthorsToBook(int id, AuthorsMap authors) {
-        LOG.log(Level.INFO, "PUT authors to book with id {0}", id);
-        String resourceName = "books/" + id + "/authors";
-        Response response = given().contentType(ContentType.JSON).body(authors).put(BASE_URL + resourceName);
-        return response;
-    }
     
     public List<Book> getBookListFromResponse(Response getResponse) {
         LOG.log(Level.INFO, "get book list from response");
         List<Book> books = new ArrayList<>();
         
         String className = getResponse.jsonPath().getString("books.book.getClass()");
+        
+        LOG.log(Level.INFO, "class: {0}", className);
+        LOG.log(Level.INFO, "book list in json: {0}", getResponse.jsonPath().get("books.book.title").toString());
         
         if(className.equals("class java.util.ArrayList")) {
             List<HashMap> bookHashMapList = getResponse.jsonPath().getList("books.book");
@@ -154,6 +137,8 @@ private static final Logger LOG = Logger.getLogger(BookOperations.class.getName(
         LOG.log(Level.INFO, "get author list from the path {0} from response", bookPath);
         String className = response.jsonPath().getString(bookPath + ".author.getClass()");
           String resource = bookPath + ".author";
+          LOG.log(Level.INFO, "className: {0}", className);
+          LOG.log(Level.INFO, "authors from book in json: {0}", response.jsonPath().get(resource).toString());
             List<Author> authorList = new ArrayList<>();
             
              if(className.equals("class java.util.HashMap")) {
@@ -167,10 +152,21 @@ private static final Logger LOG = Logger.getLogger(BookOperations.class.getName(
                  for(int k = 0; k < s; k++) {
                      resource = bookPath + ".author[" + k + "]";
                      Author author = response.jsonPath().getObject(resource, Author.class);
-                     authorList.add(author);                   
+                     authorList.add(author);     
                  }
              }
              return authorList;
+    }
+    
+    public List<Book> getBookListFromHashMap(List<HashMap> bookHashMapList) {
+        LOG.log(Level.INFO, "GET book list from hash map");
+        List<Book> bookList = new ArrayList<>();
+        
+        bookHashMapList.forEach((bookHashMap)->{
+           Book book = new Book(bookHashMap);
+           bookList.add(book);
+        });
+        return bookList;
     }
     
 }

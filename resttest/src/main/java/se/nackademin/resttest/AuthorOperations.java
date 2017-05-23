@@ -22,20 +22,14 @@ public class AuthorOperations extends BaseOperations {
         
     }
     
-    public SingleAuthor createRandomSingleAuthor(int id) {
-        LOG.log(Level.INFO, "Create random SingleAuthor with id {0}", id);
-        Author author = createRandomAuthor(id);
-        SingleAuthor singleAuthor = new SingleAuthor(author);
-        return singleAuthor;        
-    }
-    
     public Author createRandomAuthor(Integer id) {
         LOG.log(Level.INFO, "Create random Author with id {0}", id);
+        //int maxLength = 10;
         Author author = new Author();
-        String firstName = UUID.randomUUID().toString();
-        String lastName = UUID.randomUUID().toString();
-        String bio = UUID.randomUUID().toString();
-        String country = UUID.randomUUID().toString();
+        String firstName = "Lasse";//UUID.randomUUID().toString().substring(0, maxLength);
+        String lastName = "Holm";//UUID.randomUUID().toString().substring(0, maxLength);
+        String bio = "bio";//UUID.randomUUID().toString().substring(0, maxLength);
+        String country = "country";//UUID.randomUUID().toString().substring(0, maxLength);
         author.setFirstName(firstName);
         author.setLastName(lastName);
         author.setBio(bio);
@@ -77,6 +71,7 @@ public class AuthorOperations extends BaseOperations {
         Object[] authorValues = {singleAuthor.getAuthor().getId(), singleAuthor.getAuthor().getFirstName() + 
                 " " + singleAuthor.getAuthor().getLastName()};
         LOG.log(Level.INFO, "POST author Response with id {0} and name {1}", authorValues);
+        
         String resourceName = "authors";
         Response response = given().contentType(ContentType.JSON).body(singleAuthor).post(BASE_URL + resourceName);
         return response;
@@ -85,74 +80,16 @@ public class AuthorOperations extends BaseOperations {
     public Response postAuthorToBookResponse(int id, SingleAuthor singleAuthor) {
         LOG.log(Level.INFO, "POST the author '{0}'  to the book with id {1}", new Object[]{singleAuthor.getAuthor().getFirstName() + 
                 " " + singleAuthor.getAuthor().getLastName(), id});
+        
         String resourceName = "books/" + Integer.toString(id) + "/authors";
         Response response = given().contentType(ContentType.JSON).body(singleAuthor).post(BASE_URL + resourceName);
         return response;
-    }
-    
-    /*public HashMap<String, Object> convertAuthorToHashMap(Author author) {
-        Object[] authorValues = {author.getId(), author.getFirstName() + " " + author.getLastName()};
-        LOG.log(Level.INFO, "Convert the author with the id {0} and name {1} to a HashMap", authorValues);
-        HashMap<String, Object> authorMap = new HashMap<>();
-        authorMap.put("name", author.getName());
-        authorMap.put("id", author.getId());
-        return authorMap;
-    }*/
-    
-    public Map<String, ArrayList> deleteAuthorFromMap(String name, Map<String, ArrayList> authorsMap) {
-        LOG.log(Level.INFO, "Delete author {0} from the Map", name);
-        String key = "author";
-        for(int i = 0; i < authorsMap.get(key).size(); i++) {
-            HashMap<String, String> tempMap = (HashMap<String, String>) authorsMap.get(key).get(i);
-            if(tempMap.get("name").equals(name))
-            {
-                authorsMap.get(key).remove(i);
-            }
-        }
-        return authorsMap;
-    }
-    
-    public String getJsonAuthorString(Author author) {
-        Object[] authorValues = {author.getId(), author.getBio(), author.getCountry(), author.getFirstName(), author.getLastName()};
-        LOG.log(Level.INFO, "Convert author with the id {0} and name {1} to a json string", authorValues);
-        String jsonString;
-        if(author.getId() == null) {
-           String jsonStringTemplate = "{\n" +
-                "  \"author\": {\n" +
-                "    \"bio\": \"%s\",\n" +
-                "    \"country\": \"%s\",\n" +
-                "    \"firstName\": \"%s\",\n" +
-                "    \"lastName\": \"%s\"\n" +
-                "  }\n" +
-                "}";
-           jsonString = String.format(jsonStringTemplate, author.getBio(), author.getCountry(), author.getFirstName(), author.getLastName());
-        }
-        else
-        {
-            String jsonStringTemplate = "{\n" +
-                "  \"author\": {\n" +
-                "    \"id\": %s,\n" +
-                "    \"bio\": \"%s\",\n" +
-                "    \"country\": \"%s\",\n" +
-                "    \"firstName\": \"%s\",\n" +
-                "    \"lastName\": \"%s\"\n" +
-                "  }\n" +
-                "}";
-            jsonString = String.format(jsonStringTemplate, author.getId(), author.getBio(), author.getCountry(), author.getFirstName(), author.getLastName());
-        }
-        return jsonString;
     }
     
     public Response putAuthorToBookResponse(int bookId, String jsonString) {
         LOG.log(Level.INFO, "PUT author to book with id {0} Response", bookId);
         String resourceName ="books/" + bookId + "/authors";
         Response response = given().contentType(ContentType.JSON).body(jsonString).put(BASE_URL + resourceName);
-        return response;
-    }
-    public Response putAuthorToBookResponse(int bookId, List<Author> authors) {
-        LOG.log(Level.INFO, "PUT author to book with id {0} Response", bookId);
-        String resourceName ="books/" + bookId + "/authors";
-        Response response = given().contentType(ContentType.JSON).body(authors).put(BASE_URL + resourceName);
         return response;
     }
     
@@ -167,9 +104,44 @@ public class AuthorOperations extends BaseOperations {
         Object[] authorValues = {singleAuthor.getAuthor().getId(), singleAuthor.getAuthor().getFirstName() + 
                 " " + singleAuthor.getAuthor().getLastName()};
         LOG.log(Level.INFO, "PUT author with id {0} and name {1}", authorValues);
+        
         String resourceName = "authors";
         Response response = given().contentType(ContentType.JSON).body(singleAuthor).put(BASE_URL + resourceName);
         return response;
+    }
+    
+    public List<Author> getAuthorListFromResponse(Response response, String path) {
+        LOG.log(Level.INFO, "get author list from the path {0} from response", path);
+        String className = response.jsonPath().getString(path + ".author.getClass()");
+          String resource = path + ".author";
+          LOG.log(Level.INFO, "className: {0}", className);
+          LOG.log(Level.INFO, "authors in json: {0}", response.jsonPath().get(resource).toString());
+            List<Author> authorList = new ArrayList<>();
+            
+             if(className.equals("class java.util.HashMap")) {
+                Author author = response.jsonPath().getObject(resource, Author.class);
+                authorList.add(author);
+             }
+             
+             if(className.equals("class java.util.ArrayList")) {
+                 resource = path + ".author.size()";
+                 int s = response.jsonPath().getInt(resource);
+                 for(int k = 0; k < s; k++) {
+                     resource = path + ".author[" + k + "]";
+                     Author author = response.jsonPath().getObject(resource, Author.class);
+                     authorList.add(author);     
+                 }
+             }
+             return authorList;
+    }
+    public List<Author> getAuthorListFromHashMap(List<HashMap> authorHashMapList) {
+        LOG.log(Level.INFO, "GET Author list from hashMap");
+        List<Author> authorList = new ArrayList<>();
+        for(HashMap hm : authorHashMapList) {
+            Author author = new Author(hm);
+            authorList.add(author);
+        }
+        return authorList;
     }
     
 }

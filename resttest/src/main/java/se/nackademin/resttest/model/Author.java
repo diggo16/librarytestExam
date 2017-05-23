@@ -92,5 +92,19 @@ public class Author {
         this.lastName = lastName;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if(other == null) {
+            return false;
+        }
+        else {
+            Author author = (Author) other;
+            if(id == author.id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
 

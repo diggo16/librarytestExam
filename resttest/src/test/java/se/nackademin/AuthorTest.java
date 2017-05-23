@@ -8,6 +8,9 @@ package se.nackademin;
 import static com.jayway.restassured.RestAssured.given;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -23,32 +26,92 @@ public class AuthorTest extends BaseTest {
     
     public AuthorTest() {
     }
+    @Test
+    public void testGetAuthors() {
+        Response getResponse = authorOperations.getAllAuthorsResponse();
+        assertEquals("Status code should be 200", 200, getResponse.statusCode());
+        
+        List<Author> authorList = authorOperations.getAuthorListFromHashMap(getResponse.jsonPath().getList("authors.author"));
+        
+        authorList.forEach((author)->{
+            assertNotNull(author);
+        });
+    }
     
     @Test
-    public void testGetAuthor() {   // TODO finnish test
-        Author author = authorOperations.getAuthor(1);
-        
-        
-    }
-    @Ignore
-    @Test
-    public void testPostAuthor() {  // TODO check that the author is created with a GET
+    public void testPostAuthor() {
         int id = new Random().nextInt(1000) + 500;
-        Author author = new Author();
-        author.setFirstName("Hakan");
-        author.setLastName("Brakan");
-        author.setBio("hello bio");
-        author.setCountry("Sweden");
-        author.setId(id);
-        String path = "http://localhost:8080/librarytest-rest/authors";
+        Author randomAuthor = authorOperations.createRandomAuthor(id);
+        SingleAuthor singleAuthor = new SingleAuthor(randomAuthor);
+        Response postResponse = authorOperations.postAuthorResponse(singleAuthor);
+        assertEquals("Status code should be 201", 201, postResponse.statusCode());
         
-        SingleAuthor singleAuthor = new SingleAuthor(author);
+        Response getResponse = authorOperations.getAuthorResponse(id);
+        Author author = getResponse.jsonPath().getObject("author", Author.class);
         
-        Response response = given().contentType(ContentType.JSON).body(singleAuthor).post(path);
-        assertEquals("Status code should be 201", 201, response.statusCode());
+        assertEquals(randomAuthor.getFirstName(), author.getFirstName());
+        assertEquals(randomAuthor.getLastName(), author.getLastName());
+        assertEquals(randomAuthor.getCountry(), author.getCountry());
+        assertEquals(randomAuthor.getBio(), author.getBio());
         
-        Response authorResponse = authorOperations.getAuthorResponse(id);
-        assertEquals("Status code should be 200", 200, authorResponse.statusCode());
+        authorOperations.deleteAuthor(id);
+    }
+    
+    @Test
+    public void testPutAuthor() {
+        int id = new Random().nextInt(1000) + 500;
+        Author randomAuthor = authorOperations.createRandomAuthor(id);
+        SingleAuthor singleAuthor = new SingleAuthor(randomAuthor);
+        Response postResponse = authorOperations.postAuthorResponse(singleAuthor);
+        assertEquals("Status code should be 201", 201, postResponse.statusCode());
+        
+        randomAuthor.setFirstName("first");
+        randomAuthor.setLastName("last");
+        randomAuthor.setBio("no Bio");
+        randomAuthor.setCountry("Finland");
+        
+        singleAuthor = new SingleAuthor(randomAuthor);
+        Response putResponse = authorOperations.putAuthorResponse(singleAuthor);
+        assertEquals("Status code should be 200", 200, putResponse.statusCode());
+        
+        Author author = authorOperations.getAuthor(id);
+        
+        assertEquals(randomAuthor.getFirstName(), author.getFirstName());
+        assertEquals(randomAuthor.getLastName(), author.getLastName());
+        assertEquals(randomAuthor.getCountry(), author.getCountry());
+        assertEquals(randomAuthor.getBio(), author.getBio());
+        
+        authorOperations.deleteAuthor(id);
+    }
+    
+ 
+    @Test
+    public void testGetAuthor() {
+        int id = new Random().nextInt(1000) + 500;
+        Author randomAuthor = authorOperations.createRandomAuthor(id);
+        SingleAuthor singleAuthor = new SingleAuthor(randomAuthor);
+        authorOperations.postAuthorResponse(singleAuthor);
+        
+        Response getResponse = authorOperations.getAuthorResponse(id);
+        Author author = getResponse.jsonPath().getObject("author", Author.class);
+        assertNotNull(author);
+        
+        authorOperations.deleteAuthor(id);
+    }
+    
+    @Test
+    public void testDeleteAuthor() {
+        int id = new Random().nextInt(1000) + 500;
+        Author randomAuthor = authorOperations.createRandomAuthor(id);
+        SingleAuthor singleAuthor = new SingleAuthor(randomAuthor);
+        Response postResponse = authorOperations.postAuthorResponse(singleAuthor);
+        assertEquals("Status code should be 201", 201, postResponse.statusCode());
+        
+        Response deleteResponse = authorOperations.deleteAuthor(id);
+        assertEquals("Status code should be 204", 204, deleteResponse.statusCode());
+        
+        Response getResponse = authorOperations.getAuthorResponse(id);
+        assertEquals("Status code should be 404", 404, getResponse.statusCode());
     }
     
 }

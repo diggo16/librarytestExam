@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Book {
+public class Book<T> {
     private Integer id;
-    private List<Author> author;
+    private T author;
     private String description;
     private String isbn;
     private Integer nbrPages;
@@ -15,11 +15,12 @@ public class Book {
     private Integer totalNbrCopies;
     private String title;
     
+    private List<Author> authorList;
+    
     public Book() {
-        author = new ArrayList<>();
     }
 
-    public Book(HashMap map, List<Author> authors) {
+    public Book(HashMap map, T authors) {
         id = (Integer) map.get("id");
         description = (String) map.get("description");
         isbn = (String) map.get("isbn");
@@ -27,7 +28,29 @@ public class Book {
         publicationDate = (String) map.get("publicationDate");
         totalNbrCopies = (Integer) map.get("totalNbrCopies");
         title = (String) map.get("title");
-        this.author = authors;      
+        this.author = authors;
+    }
+    public Book(HashMap map) {
+        id = (Integer) map.get("id");
+        description = (String) map.get("description");
+        isbn = (String) map.get("isbn");
+        nbrPages = (Integer) map.get("nbrPages");
+        publicationDate = (String) map.get("publicationDate");
+        totalNbrCopies = (Integer) map.get("totalNbrCopies");
+        title = (String) map.get("title");
+        
+        String authorClassName = map.get("author").getClass().getSimpleName();
+        List<Author> list = new ArrayList<>();
+        if(authorClassName.equals("HashMap")) {
+            list.add(new Author((HashMap) map.get("author")));
+        }
+        if(authorClassName.equals("ArrayList")) {
+            ArrayList<HashMap> arrList = (ArrayList) map.get("author");
+            arrList.forEach((authorHashMap)->{
+                list.add(new Author(authorHashMap));
+            });
+        }
+        authorList = list;
     }
 
     /**
@@ -48,22 +71,29 @@ public class Book {
      * @return the author
      */
     public List<Author> getAuthor() {
-        return author;
+        return authorList;
+    }
+    
+    public List<Author> getAuthorList() {
+        createAuthorList();
+        return authorList;
     }
 
     /**
      * @param author the author to set
      */
-    public void setAuthor(Author author) {
-        this.author.clear();
-        this.author.add(author);
+    public void setAuthor(T author) {
+        System.out.println("set Author");
+        this.author = author;
     }
     /**
      * @param authors the author to set
      */
-    public void setAuthor(List<Author> authors) {
-        this.author = authors;
-    }
+    /*public void setAuthor(List<Author> authors) {
+        System.out.println("set AuthorList");
+        this.authorList = new ArrayList<>();
+        this.authorList = authors;
+    }*/
 
     /**
      * @return the description
@@ -101,7 +131,7 @@ public class Book {
     }
 
     /**
-     * @param nbOfPage the nbOfPage to set
+     * @param nbrPages the nbrPages to set
      */
     public void setNbrPages(Integer nbrPages) {
         this.nbrPages = nbrPages;
@@ -147,6 +177,23 @@ public class Book {
      */
     public void setTitle(String title) {
         this.title = title;
+    }
+    
+    public void createAuthorList() {
+        String className = author.getClass().getSimpleName();
+
+        List<Author> authorList = null;
+        if(className.equals("ArrayList")) {
+            authorList = (List<Author>) author;
+        }
+        if(className.equals("LinkedTreeMap")) {
+            authorList = new ArrayList<>();
+            ((Map) author).put("id", ( (Double) ((Map) author).get("id")).intValue());
+            Author newAuthor = new Author((Map) author);
+            authorList.add(newAuthor);
+        }
+        this.authorList = authorList;
+        
     }
     
 }
