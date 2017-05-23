@@ -80,4 +80,23 @@ public class UserTest extends BaseTest {
         assertEquals("Status code should be 204", 204, deleteResponse.statusCode());
     }
     
+    @Test
+    public void testGetUser() {
+        Response getResponse = UserOperations.getUserResponse(13);
+        assertEquals("Status code should be 200", 200, getResponse.statusCode());
+    }
+    
+    @Test
+    public void testDeleteUser() {
+        User user = UserOperations.createRandomUser();
+        Response postResponse = UserOperations.postUserResponse(user);
+        assertEquals("Status code should be 201", 201, postResponse.statusCode());
+        
+        Response deleteResponse = UserOperations.deleteUserResponse(user.getId());
+        assertEquals("Status code should be 204", 204, deleteResponse.statusCode());
+        
+        Response getResponse = UserOperations.getUserResponse(user.getId());
+        assertEquals("Status code should be 404", 404, getResponse.statusCode());
+    }
+    
 }
