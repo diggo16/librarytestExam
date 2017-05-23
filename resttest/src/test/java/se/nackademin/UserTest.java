@@ -37,8 +37,7 @@ public class UserTest extends BaseTest {
     @Test
     public void testPostUser() {
         User user = UserOperations.createRandomUser();
-        SingleUser singleUser = new SingleUser(user);
-        Response postResponse = UserOperations.postUserResponse(singleUser);
+        Response postResponse = UserOperations.postUserResponse(user);
         assertEquals("Status code should be 201", 201, postResponse.statusCode());
         
         Response getResponse = UserOperations.getUserResponse(user.getId());
@@ -53,6 +52,29 @@ public class UserTest extends BaseTest {
         assertEquals(user.getPassword(), actualUser.getPassword());
         assertEquals(user.getPhone(), actualUser.getPhone());
         assertEquals(user.getRole(), actualUser.getRole());
+        
+        Response deleteResponse = UserOperations.deleteUserResponse(user.getId());
+        assertEquals("Status code should be 204", 204, deleteResponse.statusCode());
+    }
+    
+    @Test
+    public void testPutUser() {
+        User user = UserOperations.createRandomUser();
+        Response postResponse = UserOperations.postUserResponse(user);
+        assertEquals("Status code should be 201", 201, postResponse.statusCode());
+        
+        String firstName = "Tobias";
+        user.setFirstName(firstName);
+        
+        Response putResponse = UserOperations.putUserResponse(user);
+        assertEquals("Status code should be 200", 200, putResponse.statusCode());
+        
+        Response getResponse = UserOperations.getUserResponse(user.getId());
+        assertEquals("Status code should be 200", 200, getResponse.statusCode());
+        
+        User actualUser = UserOperations.getUserFromResponse(getResponse);
+        
+        assertEquals(firstName, actualUser.getFirstName());
         
         Response deleteResponse = UserOperations.deleteUserResponse(user.getId());
         assertEquals("Status code should be 204", 204, deleteResponse.statusCode());

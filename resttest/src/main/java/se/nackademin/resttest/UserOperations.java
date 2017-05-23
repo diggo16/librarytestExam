@@ -42,11 +42,20 @@ public class UserOperations extends BaseOperations {
         return getUserListFromHashMap(hashMapList);
     }
     
-    public static Response postUserResponse(SingleUser singleUser) {
-        LOG.log(Level.INFO, "POST user {0}", singleUser.getUser().toString());
+    public static Response postUserResponse(User user) {
+        LOG.log(Level.INFO, "POST user {0}", user.toString());
+        SingleUser singleUser = new SingleUser(user);
         String resourceName = "users";
         Response postResponse = given().contentType(ContentType.JSON).body(singleUser).post(BASE_URL + resourceName);
         return postResponse;
+    }
+    
+    public static Response putUserResponse(User user) {
+        LOG.log(Level.INFO, "POST user {0}", user.toString());
+        SingleUser singleUser = new SingleUser(user);
+        String resourceName = "users";
+        Response putResponse = given().contentType(ContentType.JSON).body(singleUser).put(BASE_URL + resourceName);
+        return putResponse;
     }
     
     public static Response deleteUserResponse(int id) {
