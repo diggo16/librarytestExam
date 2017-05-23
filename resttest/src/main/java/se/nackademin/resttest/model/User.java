@@ -22,6 +22,10 @@ public class User {
     private String phone;
     private String role;
     
+    public User() {
+        
+    }
+    
     public User(Map userMap) {
         displayName = (String) userMap.get("displayName");
         password = (String) userMap.get("password");
@@ -137,6 +141,13 @@ public class User {
      */
     public void setRole(String role) {
         this.role = role;
+    }
+    
+    @Override
+    public String toString() {
+        String str = "{" + id + ", " + displayName + ", " + firstName + ", " + lastName +
+                ", " + password + ", " + phone + ", " + role + "}";
+        return str;
     }
     
 }

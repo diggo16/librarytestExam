@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import se.nackademin.resttest.UserOperations;
+import se.nackademin.resttest.model.SingleUser;
 import se.nackademin.resttest.model.User;
 
 /**
@@ -31,6 +32,30 @@ public class UserTest extends BaseTest {
         userList.forEach((user)->{
             assertNotNull(user);
         });
+    }
+    
+    @Test
+    public void testPostUser() {
+        User user = UserOperations.createRandomUser();
+        SingleUser singleUser = new SingleUser(user);
+        Response postResponse = UserOperations.postUserResponse(singleUser);
+        assertEquals("Status code should be 201", 201, postResponse.statusCode());
+        
+        Response getResponse = UserOperations.getUserResponse(user.getId());
+        assertEquals("Status code should be 200", 200, getResponse.statusCode());
+        
+        User actualUser = UserOperations.getUserFromResponse(getResponse);
+        
+        assertEquals(user.getId(), actualUser.getId());
+        assertEquals(user.getDisplayName(), actualUser.getDisplayName());
+        assertEquals(user.getFirstName(), actualUser.getFirstName());
+        assertEquals(user.getLastName(), actualUser.getLastName());
+        assertEquals(user.getPassword(), actualUser.getPassword());
+        assertEquals(user.getPhone(), actualUser.getPhone());
+        assertEquals(user.getRole(), actualUser.getRole());
+        
+        Response deleteResponse = UserOperations.deleteUserResponse(user.getId());
+        assertEquals("Status code should be 204", 204, deleteResponse.statusCode());
     }
     
 }
