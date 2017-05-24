@@ -16,7 +16,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
 import se.nackademin.resttest.model.Author;
-import se.nackademin.resttest.model.SingleAuthor;
+import se.nackademin.resttest.model.single.SingleAuthor;
 
 /**
  *

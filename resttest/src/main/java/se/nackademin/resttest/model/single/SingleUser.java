@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.nackademin.resttest.model;
+package se.nackademin.resttest.model.single;
+
+import se.nackademin.resttest.model.User;
 
 /**
  *

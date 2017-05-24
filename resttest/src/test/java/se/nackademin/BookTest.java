@@ -1,5 +1,7 @@
 package se.nackademin;
 
+import se.nackademin.resttest.model.single.SingleBook;
+import se.nackademin.resttest.model.single.SingleAuthor;
 import com.jayway.restassured.response.Response;
 import java.util.ArrayList;
 import java.util.List;

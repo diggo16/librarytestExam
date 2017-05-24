@@ -93,4 +93,12 @@ public class Loan {
         this.dateDue = dateDue;
     }
     
+    @Override
+    public String toString() {
+        String returnStr = "{ {" + user.getId() + ", " + user.getDisplayName() + "}, {" +
+                book.getId() + ", " + book.getTitle() + "}, " + dateBorrowed + ", " +
+                dateDue + "}";
+        return returnStr;
+    }
+    
 }

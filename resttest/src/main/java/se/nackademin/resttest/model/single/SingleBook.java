@@ -1,4 +1,6 @@
-package se.nackademin.resttest.model;
+package se.nackademin.resttest.model.single;
+
+import se.nackademin.resttest.model.Book;
 
 public class SingleBook {
     private Book book;

@@ -1,4 +1,6 @@
-package se.nackademin.resttest.model;
+package se.nackademin.resttest.model.single;
+
+import se.nackademin.resttest.model.Author;
 
 public class SingleAuthor {
     private Author author;

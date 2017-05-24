@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import se.nackademin.resttest.model.Author;
-import se.nackademin.resttest.model.SingleAuthor;
+import se.nackademin.resttest.model.single.SingleAuthor;
 
 public class AuthorOperations extends BaseOperations {
     

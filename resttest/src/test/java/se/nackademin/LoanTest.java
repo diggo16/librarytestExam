@@ -33,4 +33,10 @@ public class LoanTest extends BaseTest {
         });
     }
     
+    @Test
+    public void testPostLoan() {
+        Response postResponse = LoanOperations.getLoansResponse();
+        assertEquals("Status code should be 200", 200, postResponse.statusCode());
+    }
+    
 }

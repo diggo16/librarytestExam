@@ -12,7 +12,7 @@ import java.util.UUID;
 import se.nackademin.resttest.model.Author;
 import se.nackademin.resttest.model.AuthorsMap;
 import se.nackademin.resttest.model.Book;
-import se.nackademin.resttest.model.SingleBook;
+import se.nackademin.resttest.model.single.SingleBook;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

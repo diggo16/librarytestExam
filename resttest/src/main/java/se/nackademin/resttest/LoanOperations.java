@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import se.nackademin.resttest.model.Loan;
+import se.nackademin.resttest.model.single.SingleLoan;
 
 /**
  *
@@ -30,6 +31,14 @@ public class LoanOperations extends BaseOperations {
         String resourceName = "loans";
         Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
         return response;  
+    }
+    
+    public static Response postLoanResponse(Loan loan) {
+        LOG.log(Level.INFO, "POST loan {0}", loan.toString());
+        String resourceName = "loans";
+        SingleLoan singleLoan = new SingleLoan(loan);
+        Response postResponse = given().contentType(ContentType.JSON).body(singleLoan).post(BASE_URL + resourceName);
+        return postResponse;
     }
     
     public static List<Loan> getLoansFromResponse(Response response) {
