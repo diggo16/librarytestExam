@@ -14,12 +14,8 @@ import se.nackademin.resttest.BookOperations;
  */
 public class BaseTest {
     
-    protected final BookOperations bookOperations;
-    protected final AuthorOperations authorOperations;
     
     public BaseTest() {
-        bookOperations = new BookOperations();
-        authorOperations = new AuthorOperations();
     }
     
 }

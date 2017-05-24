@@ -10,6 +10,8 @@ import java.util.UUID;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
+import se.nackademin.resttest.AuthorOperations;
+import se.nackademin.resttest.BookOperations;
 import se.nackademin.resttest.model.*;
 
 public class BookTest extends BaseTest {
@@ -24,10 +26,10 @@ public class BookTest extends BaseTest {
     //@Ignore
     @Test
     public void testFetchBooks() {
-        Response response = bookOperations.getAllBooksResponse();
+        Response response = BookOperations.getAllBooksResponse();
         assertEquals("Status code should be 200", 200, response.statusCode());
         
-        List<Book> bookList = bookOperations.getBookListFromHashMap(response.jsonPath().getList("books.book"));
+        List<Book> bookList = BookOperations.getBookListFromHashMap(response.jsonPath().getList("books.book"));
         bookList.forEach((book)->{
             assertNotNull(book);
         });
@@ -37,22 +39,22 @@ public class BookTest extends BaseTest {
     public void testPostBook() {
         
         int authorId = new Random().nextInt(1000) + 500;
-        Author author = authorOperations.createRandomAuthor(authorId);
+        Author author = AuthorOperations.createRandomAuthor(authorId);
         SingleAuthor singleAuthor = new SingleAuthor(author);
-        Response postAuthorResponse = authorOperations.postAuthorResponse(singleAuthor);
+        Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
         assertEquals("Status code should be 201", 201, postAuthorResponse.statusCode());
         List<Author> authors = new ArrayList<>();
         authors.add(author);
         
         int id = new Random().nextInt(1000) + 500;        
-        Book postBook = bookOperations.createRandomBook(id);
+        Book postBook = BookOperations.createRandomBook(id);
         postBook.setAuthor(authors);
         SingleBook singleBook = new SingleBook(postBook);
         
-        Response postResponse = bookOperations.postBook(singleBook);
+        Response postResponse = BookOperations.postBook(singleBook);
         assertEquals("Status code should be 201", 201, postResponse.statusCode());
         
-        Book book = bookOperations.getBook(id);
+        Book book = BookOperations.getBook(id);
 
         assertEquals(singleBook.getBook().getTitle(), book.getTitle());
         assertEquals(singleBook.getBook().getDescription(), book.getDescription());
@@ -63,39 +65,39 @@ public class BookTest extends BaseTest {
         List<Author> authorList = book.getAuthorList();
         assertEquals(author.getFirstName(), authorList.get(0).getFirstName());
         
-        bookOperations.deleteBook(id);
-        authorOperations.deleteAuthor(authorId);
+        BookOperations.deleteBook(id);
+        AuthorOperations.deleteAuthor(authorId);
 
     }
     //@Ignore
     @Test
     public void testPutBook() {
         int authorId = new Random().nextInt(1000) + 500;
-        Author author = authorOperations.createRandomAuthor(authorId);
+        Author author = AuthorOperations.createRandomAuthor(authorId);
         SingleAuthor singleAuthor = new SingleAuthor(author);
-        Response postAuthorResponse = authorOperations.postAuthorResponse(singleAuthor);
+        Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
         assertEquals("Status code should be 201", 201, postAuthorResponse.statusCode());
         List<Author> authors = new ArrayList<>();
         authors.add(author);
         
         int id = new Random().nextInt(1000) + 500;        
-        Book postBook = bookOperations.createRandomBook(id);
+        Book postBook = BookOperations.createRandomBook(id);
         postBook.setAuthor(authors);
         SingleBook singleBook = new SingleBook(postBook);
         
-        Response postResponse = bookOperations.postBook(singleBook);
+        Response postResponse = BookOperations.postBook(singleBook);
         assertEquals("Status code should be 201", 201, postResponse.statusCode());
         
         String newTitle = "hell title";
         postBook.setTitle(newTitle);
         SingleBook putSingleBook = new SingleBook(postBook);
-        Response putResponse = bookOperations.putBook(putSingleBook);
+        Response putResponse = BookOperations.putBook(putSingleBook);
         assertEquals("Status code should be 200", 200, putResponse.statusCode());
         
-        Book getBook = bookOperations.getBook(id);
+        Book getBook = BookOperations.getBook(id);
         assertEquals(postBook.getTitle(), getBook.getTitle());
         
-        bookOperations.deleteBook(id);
+        BookOperations.deleteBook(id);
     }
     
     /**
@@ -105,22 +107,22 @@ public class BookTest extends BaseTest {
     @Test
     public void testFetchBook() {
         int authorId = new Random().nextInt(1000) + 500;
-        Author author = authorOperations.createRandomAuthor(authorId);
+        Author author = AuthorOperations.createRandomAuthor(authorId);
         SingleAuthor singleAuthor = new SingleAuthor(author);
-        Response postAuthorResponse = authorOperations.postAuthorResponse(singleAuthor);
+        Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
         assertEquals("Status code should be 201", 201, postAuthorResponse.statusCode());
         List<Author> authors = new ArrayList<>();
         authors.add(author);
         
         int id = new Random().nextInt(1000) + 500;        
-        Book postBook = bookOperations.createRandomBook(id);
+        Book postBook = BookOperations.createRandomBook(id);
         postBook.setAuthor(authors);
         SingleBook singleBook = new SingleBook(postBook);
         
-        Response postResponse = bookOperations.postBook(singleBook);
+        Response postResponse = BookOperations.postBook(singleBook);
         assertEquals("Status code should be 201", 201, postResponse.statusCode());
         
-        Response response = bookOperations.getBookResponse(id);
+        Response response = BookOperations.getBookResponse(id);
         assertEquals("Status code should be 200", 200, response.statusCode());
        
         Book book = response.jsonPath().getObject("book", Book.class);
@@ -134,8 +136,8 @@ public class BookTest extends BaseTest {
         List<Author> authorList = book.getAuthorList();
         assertEquals(author.getFirstName(), authorList.get(0).getFirstName());
         
-        bookOperations.deleteBook(id);
-        authorOperations.deleteAuthor(authorId);
+        BookOperations.deleteBook(id);
+        AuthorOperations.deleteAuthor(authorId);
        
     }
     
@@ -145,18 +147,18 @@ public class BookTest extends BaseTest {
         int id = new Random().nextInt(1000) + 500;
         
         List<Author> authors = new ArrayList<>();
-        authors.add(authorOperations.getAuthor(1));
+        authors.add(AuthorOperations.getAuthor(1));
                
-        Book postBook = bookOperations.createRandomBook(id);
+        Book postBook = BookOperations.createRandomBook(id);
         postBook.setAuthor(authors);
         SingleBook singleBook = new SingleBook(postBook);
-        Response postResponse = bookOperations.postBook(singleBook);
+        Response postResponse = BookOperations.postBook(singleBook);
         assertEquals("Status code should be 201", 201, postResponse.statusCode());
         
-        Response deleteResponse = bookOperations.deleteBook(id);
+        Response deleteResponse = BookOperations.deleteBook(id);
         assertEquals("Status code should be 204", 204, deleteResponse.statusCode());
         
-        Response getResponse = bookOperations.getBookResponse(id);
+        Response getResponse = BookOperations.getBookResponse(id);
         assertEquals("Status code should be 404", 404, getResponse.statusCode());
     }
         /**
@@ -167,9 +169,9 @@ public class BookTest extends BaseTest {
     public void testGetBooksByAuthor() {
         
         int authorId = new Random().nextInt(1000) + 500;
-        Author author = authorOperations.createRandomAuthor(authorId);
+        Author author = AuthorOperations.createRandomAuthor(authorId);
         SingleAuthor singleAuthor = new SingleAuthor(author);
-        Response postAuthorResponse = authorOperations.postAuthorResponse(singleAuthor);
+        Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
         assertEquals("Status code should be 201", 201, postAuthorResponse.statusCode());
         
         List<Author> authors = new ArrayList<>();
@@ -181,19 +183,19 @@ public class BookTest extends BaseTest {
         for(int i = 0; i < 2; i++) {
             int id = new Random().nextInt(1000) + 500;
             idList.add(id);
-            Book book = bookOperations.createRandomBook(id);
+            Book book = BookOperations.createRandomBook(id);
             book.setAuthor(authors);
             bookList.add(book);
             
             SingleBook singleBook = new SingleBook(book);
-            Response postBookResponse = bookOperations.postBook(singleBook);
+            Response postBookResponse = BookOperations.postBook(singleBook);
             assertEquals("Status code should be 201", 201, postBookResponse.statusCode());
         }
         
-        Response getResponse = bookOperations.getBooksByAuthorIdResponse(authorId);
+        Response getResponse = BookOperations.getBooksByAuthorIdResponse(authorId);
         assertEquals("Status code should be 200", 200, getResponse.statusCode());
         
-        List<Book> authorBookList = bookOperations.getBookListFromResponse(getResponse);
+        List<Book> authorBookList = BookOperations.getBookListFromResponse(getResponse);
         
         for(int i = 0; i < authorBookList.size(); i++) {
             List<Author> actualAuthorList = bookList.get(i).getAuthor();
@@ -204,9 +206,9 @@ public class BookTest extends BaseTest {
         }
         
         idList.forEach((id)->{
-            bookOperations.deleteBook(id);
+            BookOperations.deleteBook(id);
         });
-        authorOperations.deleteAuthor(authorId);
+        AuthorOperations.deleteAuthor(authorId);
     }
     
     /**
@@ -219,24 +221,24 @@ public class BookTest extends BaseTest {
         List<Author> expectedAuthors = new ArrayList<>();
         for(int i = 0; i < 2; i++) {
             int authorId = new Random().nextInt(1000) + 500;
-            Author author = authorOperations.createRandomAuthor(authorId);
+            Author author = AuthorOperations.createRandomAuthor(authorId);
             SingleAuthor singleAuthor = new SingleAuthor(author);
-            Response postAuthorResponse = authorOperations.postAuthorResponse(singleAuthor);
+            Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
             assertEquals("Status code should be 201", 201, postAuthorResponse.statusCode());
             expectedAuthors.add(author);
         }
         
         int id = new Random().nextInt(1000) + 500;
-        Book book = bookOperations.createRandomBook(id);
+        Book book = BookOperations.createRandomBook(id);
         book.setAuthor(expectedAuthors);
         SingleBook singleBook = new SingleBook(book);
-        Response postResponse = bookOperations.postBook(singleBook);
+        Response postResponse = BookOperations.postBook(singleBook);
         assertEquals("Status code should be 201", 201, postResponse.statusCode());
         
-        Response getResponse = authorOperations.getAuthorsByBookIdResponse(id);
+        Response getResponse = AuthorOperations.getAuthorsByBookIdResponse(id);
         assertEquals("Status code should be 200", 200, getResponse.statusCode());
         
-        List<Author> actualAuthors = authorOperations.getAuthorListFromResponse(getResponse, "authors");
+        List<Author> actualAuthors = AuthorOperations.getAuthorListFromResponse(getResponse, "authors");
         
         for(int i = 0; i < expectedAuthors.size(); i++) {
             assertEquals(expectedAuthors.get(i).getId(), actualAuthors.get(i).getId());
@@ -246,9 +248,9 @@ public class BookTest extends BaseTest {
             assertEquals(expectedAuthors.get(i).getCountry(), actualAuthors.get(i).getCountry());
         }
         
-        bookOperations.deleteBook(id);
+        BookOperations.deleteBook(id);
         expectedAuthors.forEach((author)->{
-            authorOperations.deleteAuthor(author.getId());
+            AuthorOperations.deleteAuthor(author.getId());
         });
     }
     
@@ -259,34 +261,34 @@ public class BookTest extends BaseTest {
         List<Author> expectedAuthors = new ArrayList<>();
         for(int i = 0; i < 2; i++) {
             int authorId = new Random().nextInt(1000) + 500;
-            Author author = authorOperations.createRandomAuthor(authorId);
+            Author author = AuthorOperations.createRandomAuthor(authorId);
             SingleAuthor singleAuthor = new SingleAuthor(author);
-            Response postAuthorResponse = authorOperations.postAuthorResponse(singleAuthor);
+            Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
             assertEquals("Status code should be 201", 201, postAuthorResponse.statusCode());
             expectedAuthors.add(author);
         }
         
         int id = new Random().nextInt(1000) + 500;
-        Book book = bookOperations.createRandomBook(id);
+        Book book = BookOperations.createRandomBook(id);
         book.setAuthor(expectedAuthors);
         SingleBook singleBook = new SingleBook(book);
-        Response postResponse = bookOperations.postBook(singleBook);
+        Response postResponse = BookOperations.postBook(singleBook);
         assertEquals("Status code should be 201", 201, postResponse.statusCode());
         
         int newAuthorId = new Random().nextInt(1000) + 500;
-        Author newAuthor = authorOperations.createRandomAuthor(newAuthorId);
+        Author newAuthor = AuthorOperations.createRandomAuthor(newAuthorId);
         expectedAuthors.add(newAuthor);
         
         SingleAuthor singleAuthor = new SingleAuthor(newAuthor);
-        Response postAuthorResponse = authorOperations.postAuthorResponse(singleAuthor);
+        Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
         assertEquals("Status code should be 201", 201, postAuthorResponse.statusCode());
-        Response postAuthorToBookResponse = authorOperations.postAuthorToBookResponse(id, singleAuthor);
+        Response postAuthorToBookResponse = AuthorOperations.postAuthorToBookResponse(id, singleAuthor);
         assertEquals("Status code should be 200", 200, postAuthorToBookResponse.statusCode());
         
-        Response getResponse = authorOperations.getAuthorsByBookIdResponse(id);
+        Response getResponse = AuthorOperations.getAuthorsByBookIdResponse(id);
         assertEquals("Status code should be 200", 200, getResponse.statusCode());
         
-        List<Author> actualAuthors = authorOperations.getAuthorListFromResponse(getResponse, "authors");
+        List<Author> actualAuthors = AuthorOperations.getAuthorListFromResponse(getResponse, "authors");
         
         for(int i = 0; i < expectedAuthors.size(); i++) {
             assertEquals(expectedAuthors.get(i).getId(), actualAuthors.get(i).getId());
@@ -296,9 +298,9 @@ public class BookTest extends BaseTest {
             assertEquals(expectedAuthors.get(i).getCountry(), actualAuthors.get(i).getCountry());
         }
         
-        bookOperations.deleteBook(id);
+        BookOperations.deleteBook(id);
         expectedAuthors.forEach((author)->{
-            authorOperations.deleteAuthor(author.getId());
+            AuthorOperations.deleteAuthor(author.getId());
         });
     }
     //@Ignore
@@ -308,35 +310,35 @@ public class BookTest extends BaseTest {
         List<Author> expectedAuthors = new ArrayList<>();
         for(int i = 0; i < 3; i++) {
             int authorId = new Random().nextInt(1000) + 500;
-            Author author = authorOperations.createRandomAuthor(authorId);
+            Author author = AuthorOperations.createRandomAuthor(authorId);
             SingleAuthor singleAuthor = new SingleAuthor(author);
-            Response postAuthorResponse = authorOperations.postAuthorResponse(singleAuthor);
+            Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
             assertEquals("Status code should be 201", 201, postAuthorResponse.statusCode());
             expectedAuthors.add(author);
         }
         
         int id = new Random().nextInt(10000) + 500;
-        Book book = bookOperations.createRandomBook(id);
+        Book book = BookOperations.createRandomBook(id);
         book.setAuthor(expectedAuthors);
         SingleBook singleBook = new SingleBook(book);
-        Response postResponse = bookOperations.postBook(singleBook);
+        Response postResponse = BookOperations.postBook(singleBook);
         assertEquals("Status code should be 201", 201, postResponse.statusCode());
         
         expectedAuthors.forEach((author)->{
-            authorOperations.deleteAuthor(author.getId());
+            AuthorOperations.deleteAuthor(author.getId());
         });
-        Response getAnotherBookAuthorsResponse = authorOperations.getAuthorsByBookIdResponse(4);
+        Response getAnotherBookAuthorsResponse = AuthorOperations.getAuthorsByBookIdResponse(4);
         assertEquals("Status code should be 200", 200, getAnotherBookAuthorsResponse.statusCode());
         
         String bookPath = "authors";
-        expectedAuthors = bookOperations.getAuthorsFromResponse(getAnotherBookAuthorsResponse, bookPath);
+        expectedAuthors = BookOperations.getAuthorsFromResponse(getAnotherBookAuthorsResponse, bookPath);
         
-        Response putResponse = authorOperations.putAuthorToBookResponse(id, getAnotherBookAuthorsResponse.body().peek().print());
+        Response putResponse = AuthorOperations.putAuthorToBookResponse(id, getAnotherBookAuthorsResponse.body().peek().print());
         assertEquals("Status code should be 200", 200, putResponse.statusCode());
         
-        Response getAuthorsResponse = authorOperations.getAuthorsByBookIdResponse(id);
+        Response getAuthorsResponse = AuthorOperations.getAuthorsByBookIdResponse(id);
         assertEquals("Status code should be 200", 200, getAuthorsResponse.statusCode());
-        List<Author> actualAuthors = authorOperations.getAuthorListFromResponse(getAuthorsResponse, "authors");
+        List<Author> actualAuthors = AuthorOperations.getAuthorListFromResponse(getAuthorsResponse, "authors");
         
         assertEquals("Author lists should be same size", expectedAuthors.size(), actualAuthors.size());
 
@@ -355,7 +357,7 @@ public class BookTest extends BaseTest {
             }
         });
         
-        bookOperations.deleteBook(id);
+        BookOperations.deleteBook(id);
     }
     
 }

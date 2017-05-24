@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import se.nackademin.resttest.model.Book;
 import se.nackademin.resttest.model.Loan;
+import se.nackademin.resttest.model.User;
 import se.nackademin.resttest.model.single.SingleLoan;
 
 /**
