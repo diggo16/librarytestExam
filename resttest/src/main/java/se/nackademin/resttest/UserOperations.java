@@ -16,7 +16,6 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static se.nackademin.resttest.BaseOperations.BASE_URL;
 import se.nackademin.resttest.model.SingleUser;
 import se.nackademin.resttest.model.User;
 

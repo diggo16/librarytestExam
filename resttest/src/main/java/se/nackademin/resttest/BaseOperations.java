@@ -5,11 +5,13 @@
  */
 package se.nackademin.resttest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author daniel
  */
 public class BaseOperations {
-    protected static final String BASE_URL = "http://localhost:8080/librarytest-rest/";
-    
+    protected static final String BASE_URL = "http://localhost:8080/librarytest-rest/";    
 }

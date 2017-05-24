@@ -30,7 +30,7 @@ public class Book<T> {
         title = (String) map.get("title");
         this.author = authors;
     }
-    public Book(HashMap map) {
+    public Book(Map map) {
         id = (Integer) map.get("id");
         description = (String) map.get("description");
         isbn = (String) map.get("isbn");

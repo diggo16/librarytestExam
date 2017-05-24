@@ -31,16 +31,16 @@ public class User {
         password = (String) userMap.get("password");
         role = (String) userMap.get("role");
         
-        if(userMap.containsValue("id")) {
+        if(userMap.containsKey("id")) {
             id = (Integer) userMap.get("id");
         }
-        if(userMap.containsValue("firstName")) {
+        if(userMap.containsKey("firstName")) {
             firstName = (String) userMap.get("firstName");
         }
-        if(userMap.containsValue("lastName")) {
+        if(userMap.containsKey("lastName")) {
             lastName = (String) userMap.get("lastName");
         }
-        if(userMap.containsValue("phone")) {
+        if(userMap.containsKey("phone")) {
             phone = (String) userMap.get("phone");
         }
     }

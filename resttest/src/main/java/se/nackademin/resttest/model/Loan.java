@@ -5,6 +5,8 @@
  */
 package se.nackademin.resttest.model;
 
+import java.util.Map;
+
 /**
  *
  * @author daniel
@@ -16,6 +18,22 @@ public class Loan {
     private String dateDue;
     
     public Loan() {
+        
+    }
+    
+    public Loan(Map loanMap) {
+        Map userMap = (Map) loanMap.get("user");
+        user = new User(userMap);
+        Map bookMap = (Map) loanMap.get("book");
+        book = new Book(bookMap);
+        
+        if(loanMap.containsKey("dateBorrowed")) {
+            dateBorrowed = (String) loanMap.get("dateBorrowed");
+        }
+        
+        if(loanMap.containsKey("dateDue")) {
+            dateDue = (String) loanMap.get("dateDue");
+        }
         
     }
 
