@@ -12,6 +12,7 @@ import java.util.Map;
  * @author daniel
  */
 public class Loan {
+    private Integer id;
     private User user;
     private Book book;
     private String dateBorrowed;
@@ -33,6 +34,10 @@ public class Loan {
         
         if(loanMap.containsKey("dateDue")) {
             dateDue = (String) loanMap.get("dateDue");
+        }
+        
+        if(loanMap.containsKey("id")) {
+            id = (Integer) loanMap.get("id");
         }
         
     }
@@ -99,6 +104,20 @@ public class Loan {
                 book.getId() + ", " + book.getTitle() + "}, " + dateBorrowed + ", " +
                 dateDue + "}";
         return returnStr;
+    }
+
+    /**
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Integer id) {
+        this.id = id;
     }
     
 }

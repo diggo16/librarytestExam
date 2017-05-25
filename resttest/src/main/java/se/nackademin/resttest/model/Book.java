@@ -83,7 +83,6 @@ public class Book<T> {
      * @param author the author to set
      */
     public void setAuthor(T author) {
-        System.out.println("set Author");
         this.author = author;
     }
     /**
