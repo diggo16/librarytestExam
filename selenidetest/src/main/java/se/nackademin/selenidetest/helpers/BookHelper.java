@@ -105,4 +105,16 @@ public class BookHelper {
         browseBooksPage.clickSearchBooksButton();
         browseBooksPage.clickFirstResultTitle();
     }
+
+    public static void createNewBook(Book bookCreated) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static Book createRandomBook() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static void deleteBook(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

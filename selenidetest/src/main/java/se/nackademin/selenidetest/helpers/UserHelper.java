@@ -81,4 +81,10 @@ public class UserHelper {
     public static boolean isLoggedIn() {
         return page(MenuPage.class).isProfileDisplayed();
     }
+
+    public static void logInAsAdmin() {
+        String username = "admin";
+        String password = "1234567890";
+        logInAsUser(username, password);
+    }
 }
