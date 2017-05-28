@@ -11,5 +11,6 @@
     <module>librarytest-rest</module>
     <module>librarytest-gui</module>
     <module>resttest</module>
+    <module>selenidetest</module>
   </modules>
 </project>
