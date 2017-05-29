@@ -35,7 +35,7 @@ public class UseCaseTest  extends TestBase {
     public void testAddBook() {
         UserHelper.logInAsAdmin();
         Book createdBook = BookHelper.createRandomBook();
-        BookHelper.createNewBook(createdBook);
+        BookHelper.AddBook(createdBook);
         
         Book fetchedBook = BookHelper.fetchBook(createdBook.getTitle());
         
@@ -48,7 +48,7 @@ public class UseCaseTest  extends TestBase {
     public void testDeleteBook() {
         UserHelper.logInAsAdmin();
         Book createdBook = BookHelper.createRandomBook();
-        BookHelper.createNewBook(createdBook);
+        BookHelper.AddBook(createdBook);
         
         int id = createdBook.getId();
         BookHelper.deleteBook(id);
@@ -64,7 +64,7 @@ public class UseCaseTest  extends TestBase {
     public void testEditBookTitle() {
         UserHelper.logInAsAdmin();
         Book createdBook = BookHelper.createRandomBook();
-        BookHelper.createNewBook(createdBook);
+        BookHelper.AddBook(createdBook);
         
         String title = "Hello man";
         createdBook.setTitle(title);

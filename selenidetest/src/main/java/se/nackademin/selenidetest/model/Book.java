@@ -15,7 +15,8 @@ public class Book {
     private String description;
     private String isbn;
     private String datePublished;
-    private Integer nbrAvailable;
+    private Integer totalNbrCopies;
+    private Integer nbrPages;
 
     /**
      * @return the id
@@ -104,14 +105,28 @@ public class Book {
     /**
      * @return the nbrAvailable
      */
-    public Integer getNbrAvailable() {
-        return nbrAvailable;
+    public Integer getTotalNbrCopies() {
+        return totalNbrCopies;
     }
 
     /**
-     * @param nbrAvailable the nbrAvailable to set
+     * @param totalNbrCopies the nbrAvailable to set
      */
-    public void setNbrAvailable(Integer nbrAvailable) {
-        this.nbrAvailable = nbrAvailable;
+    public void setTotalNbrCopies(Integer totalNbrCopies) {
+        this.totalNbrCopies = totalNbrCopies;
+    }
+
+    /**
+     * @return the nbrPages
+     */
+    public Integer getNbrPages() {
+        return nbrPages;
+    }
+
+    /**
+     * @param nbrPages the nbrPages to set
+     */
+    public void setNbrPages(Integer nbrPages) {
+        this.nbrPages = nbrPages;
     }
 }

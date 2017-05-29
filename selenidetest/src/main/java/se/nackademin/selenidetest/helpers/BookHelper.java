@@ -10,9 +10,11 @@ import static com.codeborne.selenide.Selenide.page;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
+import java.util.UUID;
 import org.openqa.selenium.NoSuchElementException;
 
 import se.nackademin.selenidetest.model.Book;
+import se.nackademin.selenidetest.pages.AddBookPage;
 import se.nackademin.selenidetest.pages.BookPage;
 import se.nackademin.selenidetest.pages.BrowseBooksPage;
 import se.nackademin.selenidetest.pages.ConfirmDialogPage;
@@ -35,7 +37,7 @@ public class BookHelper {
         book.setDescription(bookPage.getDescription());
         book.setIsbn(bookPage.getIsbn());
         book.setDatePublished(bookPage.getDatePublished());
-        book.setNbrAvailable(Integer.parseInt(bookPage.getnbrAvailable()));
+        book.setTotalNbrCopies(Integer.parseInt(bookPage.getnbrAvailable()));
         return book;
     }
     
@@ -48,7 +50,7 @@ public class BookHelper {
         EditBookPage editBookPage = page(EditBookPage.class);
         editBookPage.setTitleField(book.getTitle());
         editBookPage.setIsbnField(book.getIsbn());
-        editBookPage.setNbrAvailableField(Integer.toString(book.getNbrAvailable()));
+        editBookPage.setNbrAvailableField(Integer.toString(book.getTotalNbrCopies()));
         editBookPage.setDatePublishedField(book.getDatePublished());
         editBookPage.clickSaveBookButton();
     }
@@ -106,12 +108,56 @@ public class BookHelper {
         browseBooksPage.clickFirstResultTitle();
     }
 
-    public static void createNewBook(Book bookCreated) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static void AddBook(Book bookCreated) {
+         MenuPage menuPage = page(MenuPage.class);
+         menuPage.navigateToAddBook();
+         
+         AddBookPage addBookPage = page(AddBookPage.class);
+         addBookPage.setTitleField(bookCreated.getTitle());
+         addBookPage.setTotalNbrCopiesField(Integer.toString(bookCreated.getTotalNbrCopies()));
+         addBookPage.setDatePublishedField(bookCreated.getDatePublished());
+         
+         addBookPage.selectAvailableAuthorsOption(1);
+         
+         String description = bookCreated.getDescription();
+         if(description != null) {
+             addBookPage.setDescriptionField(description);
+         }
+         
+         String Isbn = bookCreated.getIsbn();
+         if(Isbn != null) {
+             addBookPage.setIsbnField(Isbn);
+         }
+ 
+         Integer nbrPages = bookCreated.getNbrPages();
+         if(nbrPages != null) {
+             addBookPage.setDescriptionField(Integer.toString(nbrPages));
+         }
+        
+         
+         addBookPage.clickAddBookButton();
+    }
+    
+    public static boolean isBookAdded(String title) {
+        AddBookPage addBookPage = page(AddBookPage.class);
+        System.out.println("expected: " + title);
+        System.out.println("actual: " + addBookPage.getBookAddedTitleText());
+        return title.equals(addBookPage.getBookAddedTitleText());
     }
 
     public static Book createRandomBook() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int max = 10;
+        String title = UUID.randomUUID().toString().substring(0, max);
+        String description = UUID.randomUUID().toString().substring(0, max);
+        String datePublished = getRandomDatePublished();
+        int totalNbrCopies = 5;
+        Book book = new Book();
+        book.setTitle(title);
+        book.setDescription(description);
+        book.setDatePublished(datePublished);
+        book.setTotalNbrCopies(totalNbrCopies);
+        
+        return book;
     }
 
     public static void deleteBook(int id) {

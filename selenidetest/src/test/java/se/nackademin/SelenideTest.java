@@ -81,11 +81,11 @@ public class SelenideTest extends TestBase {
         
         UserHelper.logInAsUser(username, password);
         String title = "American Gods";
-        int nbrAvailable = BookHelper.fetchBook(title).getNbrAvailable();
+        int nbrAvailable = BookHelper.fetchBook(title).getTotalNbrCopies();
         nbrAvailable--;     // One less book available when you borrow one.
    
         BookHelper.borrowBook(title);
-        int newNbrAvailable = BookHelper.fetchBook(title).getNbrAvailable();
+        int newNbrAvailable = BookHelper.fetchBook(title).getTotalNbrCopies();
         assertEquals("Numbers of books available should be one less than before", nbrAvailable, newNbrAvailable);     
         
         assertTrue("Book should be borrowed", BookHelper.isBookBorrowed(title));
