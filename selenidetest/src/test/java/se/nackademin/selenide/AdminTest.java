@@ -41,32 +41,6 @@ public class AdminTest{
     }
     
     @Test
-    public void deleteAuthor() {
-        Author author = AuthorHelper.createRandomAuthor();
-        AuthorHelper.addNewAuthor(author);
-        
-        AuthorHelper.deleteAuthor(author.getName());
-        
-        Author fetchedAuthor = AuthorHelper.fetchAuthor(author.getName(), author.getCountry());
-        assertNull(fetchedAuthor);
-    }
-    
-    @Test
-    public void editAuthor() {
-        Author author = AuthorHelper.createRandomAuthor();
-        AuthorHelper.addNewAuthor(author);
-        
-        author.setBiography("this is a random biography");
-        AuthorHelper.setAuthor(author, author.getName());
-        
-        Author fetchedAuthor = AuthorHelper.fetchAuthor(author.getName(), author.getCountry());
-        assertEquals(author.getName(), fetchedAuthor.getName());
-        assertEquals(author.getCountry(), fetchedAuthor.getCountry());
-        assertEquals(author.getBiography(), fetchedAuthor.getBiography());
-        
-    }
-    
-    @Test
     public void addAuthor() {
         Author author = AuthorHelper.createRandomAuthor();
         AuthorHelper.addNewAuthor(author);
@@ -101,16 +75,6 @@ public class AdminTest{
         assertEquals(book.getDatePublished(),fetchedBook.getDatePublished());
         assertEquals(book.getTotalNbrCopies(),fetchedBook.getTotalNbrCopies());
         assertEquals(book.getDescription(),fetchedBook.getDescription());
-    }
-
-    @Test
-    public void createUser() {
-        String username = UUID.randomUUID().toString().substring(0, 12);
-        String password = UUID.randomUUID().toString().substring(0, 12);
-        UserHelper.createNewUserAsAdmin(username, password);
-        UserHelper.logInAsUser(username, password);
-        
-        UserHelper.logInAsAdmin();
     }
 
     @Test
