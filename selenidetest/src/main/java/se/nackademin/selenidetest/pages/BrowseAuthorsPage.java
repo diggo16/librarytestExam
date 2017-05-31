@@ -35,8 +35,12 @@ public class BrowseAuthorsPage extends MenuPage{
         clickButton("search authors button", searchAuthorsButton);
     }
     
-    public void clickFirstResultName() {
+    public boolean clickFirstResultName() {
+        if(!firstResultName.exists()) {
+            return false;
+        }
         clickButton("first result name", firstResultName);
+        return true;
     }
     
 }

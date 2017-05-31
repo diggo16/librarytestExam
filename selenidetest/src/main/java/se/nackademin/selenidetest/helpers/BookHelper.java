@@ -41,17 +41,20 @@ public class BookHelper {
         return book;
     }
     
-    public static void setBook(Book book) {
-        searchForBookAndClick(book.getTitle());
+    public static void setBook(Book book, String searchQuery) {
+        searchForBookAndClick(searchQuery);
         
         BookPage bookPage = page(BookPage.class);
         bookPage.clickEditButton();
         
         EditBookPage editBookPage = page(EditBookPage.class);
         editBookPage.setTitleField(book.getTitle());
-        editBookPage.setIsbnField(book.getIsbn());
+        
         editBookPage.setNbrAvailableField(Integer.toString(book.getTotalNbrCopies()));
         editBookPage.setDatePublishedField(book.getDatePublished());
+        if(book.getIsbn() != null) {
+            editBookPage.setIsbnField(book.getIsbn());
+        }
         editBookPage.clickSaveBookButton();
     }
     

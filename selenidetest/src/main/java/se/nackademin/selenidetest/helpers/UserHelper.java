@@ -6,6 +6,7 @@
 package se.nackademin.selenidetest.helpers;
 
 import static com.codeborne.selenide.Selenide.page;
+import static com.codeborne.selenide.Selenide.sleep;
 import se.nackademin.selenidetest.model.User;
 
 import se.nackademin.selenidetest.pages.AddUserPage;
@@ -20,6 +21,16 @@ import se.nackademin.selenidetest.pages.MyProfilePage;
 public class UserHelper {
     
     public static void createNewUser(String username, String password) {
+        MenuPage menuPage = page(MenuPage.class);
+        menuPage.navigateToAddUser();
+
+        AddUserPage addUserPage = page(AddUserPage.class);
+        addUserPage.setUsername(username);
+        addUserPage.setPassword(password);
+        addUserPage.clickAddUserButton();
+    }
+    
+    public static void createNewUserAsAdmin(String username, String password) {
         MenuPage menuPage = page(MenuPage.class);
         menuPage.navigateToAddUser();
 
@@ -86,5 +97,12 @@ public class UserHelper {
         String username = "admin";
         String password = "1234567890";
         logInAsUser(username, password);
+    }
+
+    public static void deleteUser() {
+         page(MenuPage.class).navigateToMyProfile();
+        
+        MyProfilePage myProfilePage = page(MyProfilePage.class);
+        myProfilePage.clickDeleteUserButton();
     }
 }

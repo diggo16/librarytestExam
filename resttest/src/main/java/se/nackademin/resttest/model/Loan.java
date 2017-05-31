@@ -100,7 +100,7 @@ public class Loan {
     
     @Override
     public String toString() {
-        String returnStr = "{ {" + user.getId() + ", " + user.getDisplayName() + "}, {" +
+        String returnStr = "{" + id + " {" + user.getId() + ", " + user.getDisplayName() + ", " + user.getRole() + "}, {" +
                 book.getId() + ", " + book.getTitle() + "}, " + dateBorrowed + ", " +
                 dateDue + "}";
         return returnStr;

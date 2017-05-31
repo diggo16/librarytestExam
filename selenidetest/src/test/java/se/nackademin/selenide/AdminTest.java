@@ -12,17 +12,20 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.AfterClass;
+import org.junit.Ignore;
 import se.nackademin.selenidetest.helpers.BookHelper;
 import se.nackademin.selenidetest.helpers.UserHelper;
 import se.nackademin.selenidetest.model.Book;
 import se.nackademin.selenidetest.model.User;
+import se.nackademin.selenidetest.model.Author;
 import se.nackademin.TestBase;
+import se.nackademin.selenidetest.helpers.AuthorHelper;
 
 /**
  *
  * @author daniel
  */
-public class AdminTest extends TestBase {
+public class AdminTest{
     
     @BeforeClass
     public static void setupClass() {
@@ -38,6 +41,44 @@ public class AdminTest extends TestBase {
     }
     
     @Test
+    public void deleteAuthor() {
+        Author author = AuthorHelper.createRandomAuthor();
+        AuthorHelper.addNewAuthor(author);
+        
+        AuthorHelper.deleteAuthor(author.getName());
+        
+        Author fetchedAuthor = AuthorHelper.fetchAuthor(author.getName(), author.getCountry());
+        assertNull(fetchedAuthor);
+    }
+    
+    @Test
+    public void editAuthor() {
+        Author author = AuthorHelper.createRandomAuthor();
+        AuthorHelper.addNewAuthor(author);
+        
+        author.setBiography("this is a random biography");
+        AuthorHelper.setAuthor(author, author.getName());
+        
+        Author fetchedAuthor = AuthorHelper.fetchAuthor(author.getName(), author.getCountry());
+        assertEquals(author.getName(), fetchedAuthor.getName());
+        assertEquals(author.getCountry(), fetchedAuthor.getCountry());
+        assertEquals(author.getBiography(), fetchedAuthor.getBiography());
+        
+    }
+    
+    @Test
+    public void addAuthor() {
+        Author author = AuthorHelper.createRandomAuthor();
+        AuthorHelper.addNewAuthor(author);
+        
+        Author fetchedAuthor = AuthorHelper.fetchAuthor(author.getName(), author.getCountry());
+        
+        assertEquals(author.getName(), fetchedAuthor.getName());
+        assertEquals(author.getCountry(), fetchedAuthor.getCountry());
+        assertEquals(author.getBiography(), fetchedAuthor.getBiography());
+    }
+
+    @Test
     public void addBook() {
         Book book = new Book();
         String title = UUID.randomUUID().toString().substring(0, 15);
@@ -50,9 +91,6 @@ public class AdminTest extends TestBase {
         book.setTotalNbrCopies(totalNbrCopies);
         BookHelper.AddBook(book);
         
-        //sleep(3000);
-        //assertTrue(BookHelper.isBookAdded(book.getTitle()));
-        
         Book fetchedBook = BookHelper.fetchBook(book.getTitle());
         System.out.println("title: " + fetchedBook.getTitle());
         System.out.println("DatePublished: " + fetchedBook.getDatePublished());
@@ -64,5 +102,37 @@ public class AdminTest extends TestBase {
         assertEquals(book.getTotalNbrCopies(),fetchedBook.getTotalNbrCopies());
         assertEquals(book.getDescription(),fetchedBook.getDescription());
     }
-    
+
+    @Test
+    public void createUser() {
+        String username = UUID.randomUUID().toString().substring(0, 12);
+        String password = UUID.randomUUID().toString().substring(0, 12);
+        UserHelper.createNewUserAsAdmin(username, password);
+        UserHelper.logInAsUser(username, password);
+        
+        UserHelper.logInAsAdmin();
+    }
+
+    @Test
+    public void testEditBookTitle() {
+        Book book = new Book();
+        String title = UUID.randomUUID().toString().substring(0, 15);
+        String description = "description 1 2 3.";
+        String datePublished = "2000-01-02";
+        int totalNbrCopies = 5;
+        book.setTitle(title);
+        book.setDescription(description);
+        book.setDatePublished(datePublished);
+        book.setTotalNbrCopies(totalNbrCopies);
+        BookHelper.AddBook(book);
+        
+        book.setTitle(UUID.randomUUID().toString().substring(0, 12));
+        BookHelper.setBook(book, title);
+        
+        Book fetchedBook = BookHelper.fetchBook(book.getTitle());
+        assertEquals(book.getTitle(),fetchedBook.getTitle());
+        assertEquals(book.getDatePublished(),fetchedBook.getDatePublished());
+        assertEquals(book.getTotalNbrCopies(),fetchedBook.getTotalNbrCopies());
+        assertEquals(book.getDescription(),fetchedBook.getDescription());
+    }
 }

@@ -19,6 +19,8 @@ public class MyProfilePage extends MenuPage {
     SelenideElement editUserButton;
     @FindBy(css = "td.v-grid-cell:nth-child(1) > a:nth-child(1)")
     private SelenideElement firstLoanTitle;
+    @FindBy(css = "#delete-user-button")
+    private SelenideElement deleteUserButton;
 
     public String getUserName() {
         return getTextFieldValue("User name field", userNameField);
@@ -50,5 +52,9 @@ public class MyProfilePage extends MenuPage {
             return true;
         }
         return false;    
+    }
+
+    public void clickDeleteUserButton() {
+        clickButton("Delete user button", deleteUserButton);
     }
 }

@@ -65,11 +65,11 @@ public class UserOperations extends BaseOperations {
     
     public static User createRandomUser() {
         int id = new Random().nextInt(1000) + 500;
-        String displayName = UUID.randomUUID().toString().substring(0, 12);
-        String firstName = UUID.randomUUID().toString().substring(0, 8);
-        String lastName = UUID.randomUUID().toString().substring(0, 12);
-        String password = UUID.randomUUID().toString().substring(0, 16);
-        String phone = UUID.randomUUID().toString().substring(0, 11);
+        String displayName = "u" + UUID.randomUUID().toString().substring(0, 12);
+        String firstName = "f" + UUID.randomUUID().toString().substring(0, 8);
+        String lastName = "l" + UUID.randomUUID().toString().substring(0, 12);
+        String password = "p" + UUID.randomUUID().toString().substring(0, 16);
+        String phone = "p" + UUID.randomUUID().toString().substring(0, 11);
         String role = "LOANER";
         
         User user = new User();

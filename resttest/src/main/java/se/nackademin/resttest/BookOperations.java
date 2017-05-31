@@ -80,7 +80,7 @@ private AuthorOperations authorOperations;
         String title = "title";
         String isbn = "734-326-34";
         String publicationDate = "2017-01-01";
-        int totalNbrCopies = 1;
+        int totalNbrCopies = 3;
         int nbrPages = 50;
         
         Book book = new Book();

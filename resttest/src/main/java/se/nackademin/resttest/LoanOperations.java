@@ -42,9 +42,37 @@ public class LoanOperations extends BaseOperations {
         return response;  
     }
     
+    public static Response getLoansOfUserResponse(int userId) {
+        LOG.log(Level.INFO, "GET all loans Response");
+        String resourceName = "loans/ofuser/" + userId;
+        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
+        return response;  
+    }
+    
+    public static Response getLoansOfBookResponse(int bookId) {
+        LOG.log(Level.INFO, "GET all loans Response");
+        String resourceName = "loans/ofbook/" + bookId;
+        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
+        return response;  
+    }
+    
+    public static Response getLoansOfUserAndBookResponse(int userId, int bookId) {
+        LOG.log(Level.INFO, "GET all loans Response");
+        String resourceName = "loans/ofuser/" + userId + "/ofbook/" + bookId;
+        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
+        return response;  
+    }
+    
     public static Response getLoanResponse(Loan loan) {
         LOG.log(Level.INFO, "GET loan {0} Response", loan.getId());
         String resourceName = "loans/" + loan.getId();
+        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
+        return response;  
+    }
+    
+    public static Response getLoanResponse(int id) {
+        LOG.log(Level.INFO, "GET loan {0} Response", id);
+        String resourceName = "loans/" + id;
         Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
         return response;  
     }
@@ -112,10 +140,15 @@ public class LoanOperations extends BaseOperations {
         SingleBook singleBook = new SingleBook(book);
         BookOperations.postBook(singleBook);
         
-        randomLoan = new Loan();
-        randomLoan.setUser(user);
-        randomLoan.setBook(book);
-        return randomLoan;
+        Loan loan = new Loan();
+        loan.setUser(user);
+        loan.setBook(book);
+        String dateBorrowed = "2017-01-01";
+        String dateDue = "2017-03-03";
+        loan.setDateBorrowed(dateBorrowed);
+        loan.setDateDue(dateDue);
+        randomLoan = loan;
+        return loan;
     }
     
     public static void cleanRandomLoan() {
