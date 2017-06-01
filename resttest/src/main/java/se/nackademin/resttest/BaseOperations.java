@@ -7,6 +7,7 @@ package se.nackademin.resttest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -14,4 +15,8 @@ import java.util.List;
  */
 public class BaseOperations {
     protected static final String BASE_URL = "http://localhost:8080/librarytest-rest/";    
+    
+    public static int getRandomId() {
+        return new Random().nextInt(10000) + 1000;
+    }
 }

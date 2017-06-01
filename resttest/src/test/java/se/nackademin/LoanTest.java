@@ -67,9 +67,9 @@ public class LoanTest extends BaseTest {
     @Test
     public void testPostLoanWithNonExistingUser() {
         User user = UserOperations.createRandomUser();
-        int bookId = new Random().nextInt(1000) + 500;
+        int bookId = BookOperations.getRandomId();
         Book book = BookOperations.createRandomBook(bookId);
-        int authorId = new Random().nextInt(10000) + 1000;
+        int authorId = AuthorOperations.getRandomId();
         Author author = AuthorOperations.createRandomAuthor(authorId);
         SingleAuthor singleAuthor = new SingleAuthor(author);
         AuthorOperations.postAuthorResponse(singleAuthor);
@@ -94,7 +94,7 @@ public class LoanTest extends BaseTest {
     @Test
     public void getLoanById() {
         Loan loan = LoanOperations.createAndGetRandomLoan();
-        int id = new Random().nextInt(1000) + 1000;
+        int id = LoanOperations.getRandomId();
         loan.setId(id);
         Response postResponse = LoanOperations.postLoanResponse(loan);
         assertEquals("Status code should be 201", 201, postResponse.statusCode());
@@ -119,7 +119,7 @@ public class LoanTest extends BaseTest {
     @Test
     public void deleteLoan() {
         Loan loan = LoanOperations.createAndGetRandomLoan();
-        int id = new Random().nextInt(1000) + 1000;
+        int id = LoanOperations.getRandomId();
         loan.setId(id);
         Response postResponse = LoanOperations.postLoanResponse(loan);
         assertEquals("Status code should be 201", 201, postResponse.statusCode());
@@ -147,7 +147,7 @@ public class LoanTest extends BaseTest {
     @Test
     public void getLoansByUserId() {
         Loan loan = LoanOperations.createAndGetRandomLoan();
-        int id = new Random().nextInt(1000) + 1000;
+        int id = LoanOperations.getRandomId();
         loan.setId(id);
         Response postResponse = LoanOperations.postLoanResponse(loan);
         assertEquals("Status code should be 201", 201, postResponse.statusCode());
@@ -183,7 +183,7 @@ public class LoanTest extends BaseTest {
     @Test
     public void getLoansByBookId() {
         Loan loan = LoanOperations.createAndGetRandomLoan();
-        int id = new Random().nextInt(1000) + 1000;
+        int id = LoanOperations.getRandomId();
         loan.setId(id);
         Response postResponse = LoanOperations.postLoanResponse(loan);
         assertEquals("Status code should be 201", 201, postResponse.statusCode());
@@ -221,7 +221,7 @@ public class LoanTest extends BaseTest {
         @Test
         public void getLoansByUserAndBookId() {
             Loan loan = LoanOperations.createAndGetRandomLoan();
-            int id = new Random().nextInt(1000) + 1000;
+            int id = LoanOperations.getRandomId();
             loan.setId(id);
             Response postResponse = LoanOperations.postLoanResponse(loan);
             assertEquals("Status code should be 201", 201, postResponse.statusCode());

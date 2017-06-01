@@ -38,7 +38,7 @@ public class BookTest extends BaseTest {
     @Test
     public void testPostBook() {
         
-        int authorId = new Random().nextInt(1000) + 500;
+        int authorId = BookOperations.getRandomId();
         Author author = AuthorOperations.createRandomAuthor(authorId);
         SingleAuthor singleAuthor = new SingleAuthor(author);
         Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
@@ -46,7 +46,7 @@ public class BookTest extends BaseTest {
         List<Author> authors = new ArrayList<>();
         authors.add(author);
         
-        int id = new Random().nextInt(1000) + 500;        
+        int id = BookOperations.getRandomId();     
         Book postBook = BookOperations.createRandomBook(id);
         postBook.setAuthor(authors);
         SingleBook singleBook = new SingleBook(postBook);
@@ -72,7 +72,7 @@ public class BookTest extends BaseTest {
     @Test
     public void testPostBookWithTakenId() {
         
-        int authorId = new Random().nextInt(1000) + 500;
+        int authorId = BookOperations.getRandomId();
         Author author = AuthorOperations.createRandomAuthor(authorId);
         SingleAuthor singleAuthor = new SingleAuthor(author);
         Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
@@ -94,7 +94,7 @@ public class BookTest extends BaseTest {
     //@Ignore
     @Test
     public void testPutBook() {
-        int authorId = new Random().nextInt(1000) + 500;
+        int authorId = BookOperations.getRandomId();
         Author author = AuthorOperations.createRandomAuthor(authorId);
         SingleAuthor singleAuthor = new SingleAuthor(author);
         Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
@@ -102,7 +102,7 @@ public class BookTest extends BaseTest {
         List<Author> authors = new ArrayList<>();
         authors.add(author);
         
-        int id = new Random().nextInt(1000) + 500;        
+        int id = BookOperations.getRandomId();      
         Book postBook = BookOperations.createRandomBook(id);
         postBook.setAuthor(authors);
         SingleBook singleBook = new SingleBook(postBook);
@@ -143,7 +143,7 @@ public class BookTest extends BaseTest {
     //@Ignore
     @Test
     public void testFetchBook() {
-        int authorId = new Random().nextInt(1000) + 500;
+        int authorId = BookOperations.getRandomId();
         Author author = AuthorOperations.createRandomAuthor(authorId);
         SingleAuthor singleAuthor = new SingleAuthor(author);
         Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
@@ -186,7 +186,7 @@ public class BookTest extends BaseTest {
     //@Ignore
     @Test
     public void testDeleteBook() {
-        int id = new Random().nextInt(1000) + 500;
+        int id = BookOperations.getRandomId();
         
         List<Author> authors = new ArrayList<>();
         authors.add(AuthorOperations.getAuthor(1));
@@ -215,7 +215,7 @@ public class BookTest extends BaseTest {
     @Test
     public void testGetBooksByAuthor() {
         
-        int authorId = new Random().nextInt(1000) + 500;
+        int authorId = AuthorOperations.getRandomId();
         Author author = AuthorOperations.createRandomAuthor(authorId);
         SingleAuthor singleAuthor = new SingleAuthor(author);
         Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
@@ -228,7 +228,7 @@ public class BookTest extends BaseTest {
         List<Book> bookList = new ArrayList<>();
         
         for(int i = 0; i < 2; i++) {
-            int id = new Random().nextInt(1000) + 500;
+            int id = BookOperations.getRandomId();
             idList.add(id);
             Book book = BookOperations.createRandomBook(id);
             book.setAuthor(authors);
@@ -267,7 +267,7 @@ public class BookTest extends BaseTest {
         
         List<Author> expectedAuthors = new ArrayList<>();
         for(int i = 0; i < 2; i++) {
-            int authorId = new Random().nextInt(1000) + 500;
+            int authorId = AuthorOperations.getRandomId();
             Author author = AuthorOperations.createRandomAuthor(authorId);
             SingleAuthor singleAuthor = new SingleAuthor(author);
             Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
@@ -275,7 +275,7 @@ public class BookTest extends BaseTest {
             expectedAuthors.add(author);
         }
         
-        int id = new Random().nextInt(1000) + 500;
+        int id = BookOperations.getRandomId();
         Book book = BookOperations.createRandomBook(id);
         book.setAuthor(expectedAuthors);
         SingleBook singleBook = new SingleBook(book);
@@ -314,7 +314,7 @@ public class BookTest extends BaseTest {
         
         List<Author> expectedAuthors = new ArrayList<>();
         for(int i = 0; i < 2; i++) {
-            int authorId = new Random().nextInt(1000) + 500;
+            int authorId = BookOperations.getRandomId();
             Author author = AuthorOperations.createRandomAuthor(authorId);
             SingleAuthor singleAuthor = new SingleAuthor(author);
             Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
@@ -322,14 +322,14 @@ public class BookTest extends BaseTest {
             expectedAuthors.add(author);
         }
         
-        int id = new Random().nextInt(1000) + 500;
+        int id = BookOperations.getRandomId();
         Book book = BookOperations.createRandomBook(id);
         book.setAuthor(expectedAuthors);
         SingleBook singleBook = new SingleBook(book);
         Response postResponse = BookOperations.postBook(singleBook);
         assertEquals("Status code should be 201", 201, postResponse.statusCode());
         
-        int newAuthorId = new Random().nextInt(1000) + 500;
+        int newAuthorId = BookOperations.getRandomId();
         Author newAuthor = AuthorOperations.createRandomAuthor(newAuthorId);
         expectedAuthors.add(newAuthor);
         
@@ -362,7 +362,7 @@ public class BookTest extends BaseTest {
         
         List<Author> expectedAuthors = new ArrayList<>();
         for(int i = 0; i < 2; i++) {
-            int authorId = new Random().nextInt(1000) + 500;
+            int authorId = AuthorOperations.getRandomId();
             Author author = AuthorOperations.createRandomAuthor(authorId);
             SingleAuthor singleAuthor = new SingleAuthor(author);
             Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
@@ -370,7 +370,7 @@ public class BookTest extends BaseTest {
             expectedAuthors.add(author);
         }
         
-        int id = new Random().nextInt(1000) + 500;
+        int id = BookOperations.getRandomId();
         Book book = BookOperations.createRandomBook(id);
         book.setAuthor(expectedAuthors);
         SingleBook singleBook = new SingleBook(book);
@@ -392,7 +392,7 @@ public class BookTest extends BaseTest {
         
         List<Author> expectedAuthors = new ArrayList<>();
         for(int i = 0; i < 3; i++) {
-            int authorId = new Random().nextInt(1000) + 500;
+            int authorId = AuthorOperations.getRandomId();
             Author author = AuthorOperations.createRandomAuthor(authorId);
             SingleAuthor singleAuthor = new SingleAuthor(author);
             Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
@@ -400,7 +400,7 @@ public class BookTest extends BaseTest {
             expectedAuthors.add(author);
         }
         
-        int id = new Random().nextInt(10000) + 500;
+        int id = BookOperations.getRandomId();
         Book book = BookOperations.createRandomBook(id);
         book.setAuthor(expectedAuthors);
         SingleBook singleBook = new SingleBook(book);
@@ -447,7 +447,7 @@ public class BookTest extends BaseTest {
         
         List<Author> expectedAuthors = new ArrayList<>();
         for(int i = 0; i < 3; i++) {
-            int authorId = new Random().nextInt(1000) + 500;
+            int authorId = AuthorOperations.getRandomId();
             Author author = AuthorOperations.createRandomAuthor(authorId);
             SingleAuthor singleAuthor = new SingleAuthor(author);
             Response postAuthorResponse = AuthorOperations.postAuthorResponse(singleAuthor);
@@ -455,7 +455,7 @@ public class BookTest extends BaseTest {
             expectedAuthors.add(author);
         }      
         
-        int id = new Random().nextInt(10000) + 500;
+        int id = BookOperations.getRandomId();
         Book book = BookOperations.createRandomBook(id);
         book.setAuthor(expectedAuthors);
         SingleBook singleBook = new SingleBook(book);

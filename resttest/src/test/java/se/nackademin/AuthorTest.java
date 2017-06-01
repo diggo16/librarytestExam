@@ -41,7 +41,7 @@ public class AuthorTest extends BaseTest {
     
     @Test
     public void testPostAuthor() {
-        int id = new Random().nextInt(1000) + 500;
+        int id = AuthorOperations.getRandomId();
         Author randomAuthor = AuthorOperations.createRandomAuthor(id);
         SingleAuthor singleAuthor = new SingleAuthor(randomAuthor);
         Response postResponse = AuthorOperations.postAuthorResponse(singleAuthor);
@@ -59,7 +59,7 @@ public class AuthorTest extends BaseTest {
     }
     @Test
     public void testPostAuthorThatAlreadyExist() {
-        int id = new Random().nextInt(1000) + 500;
+        int id = AuthorOperations.getRandomId();
         Author randomAuthor = AuthorOperations.createRandomAuthor(id);
         SingleAuthor singleAuthor = new SingleAuthor(randomAuthor);
         AuthorOperations.postAuthorResponse(singleAuthor);
@@ -69,7 +69,7 @@ public class AuthorTest extends BaseTest {
     
     @Test
     public void testPutAuthor() {
-        int id = new Random().nextInt(1000) + 500;
+        int id = AuthorOperations.getRandomId();
         Author randomAuthor = AuthorOperations.createRandomAuthor(id);
         SingleAuthor singleAuthor = new SingleAuthor(randomAuthor);
         Response postResponse = AuthorOperations.postAuthorResponse(singleAuthor);
@@ -95,7 +95,7 @@ public class AuthorTest extends BaseTest {
     }
     @Test
     public void testPutAuthorWithNoFirstName() {
-        int id = new Random().nextInt(1000) + 500;
+        int id = AuthorOperations.getRandomId();
         Author randomAuthor = AuthorOperations.createRandomAuthor(id);
         Author oldAuthor = new Author(randomAuthor);
         SingleAuthor singleAuthor = new SingleAuthor(randomAuthor);
@@ -123,7 +123,7 @@ public class AuthorTest extends BaseTest {
  
     @Test
     public void testGetAuthor() {
-        int id = new Random().nextInt(1000) + 500;
+        int id = AuthorOperations.getRandomId();
         Author randomAuthor = AuthorOperations.createRandomAuthor(id);
         SingleAuthor singleAuthor = new SingleAuthor(randomAuthor);
         AuthorOperations.postAuthorResponse(singleAuthor);
@@ -143,7 +143,7 @@ public class AuthorTest extends BaseTest {
     
     @Test
     public void testDeleteAuthor() {
-        int id = new Random().nextInt(1000) + 500;
+        int id = AuthorOperations.getRandomId();
         Author randomAuthor = AuthorOperations.createRandomAuthor(id);
         SingleAuthor singleAuthor = new SingleAuthor(randomAuthor);
         AuthorOperations.postAuthorResponse(singleAuthor);
