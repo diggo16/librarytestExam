@@ -28,7 +28,6 @@ public class UserTest extends TestBase {
     public static void setupClass() {
         System.setProperty("webdriver.chrome.driver", "/home/daniel/seleniumdrivers/chromedriver");
         System.setProperty("selenide.browser", "Chrome");
-        getWebDriver().manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
         
     }
     @Test

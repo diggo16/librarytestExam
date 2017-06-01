@@ -11,6 +11,40 @@
     <module>librarytest-rest</module>
     <module>librarytest-gui</module>
     <module>resttest</module>
-    <module>selenidetest</module>
   </modules>
+  <build>
+	<plugins>
+	    <plugin>
+	    <groupId>org.jacoco</groupId>
+	    <artifactId>jacoco-maven-plugin</artifactId>
+	    <version>0.7.6.201602180812</version>
+	    <executions>
+	        <execution>
+	            <id>prepare-unit-test-agent</id>
+	            <goals>
+	                <goal>prepare-agent</goal>
+	            </goals>
+	        </execution>
+	        <execution>
+	            <id>generate-unit-test-report</id>
+	            <goals>
+	                <goal>report</goal>
+	            </goals>
+	        </execution>
+	        <execution>
+	            <id>prepare-integration-test-agent</id>
+	            <goals>
+	                <goal>prepare-agent-integration</goal>
+	            </goals>
+	        </execution>
+	        <execution>
+	            <id>generate-integration-test-report</id>
+	            <goals>
+	                <goal>report-integration</goal>
+	            </goals>
+	        </execution>
+	    </executions>
+	    </plugin>
+        </plugins>
+      </build>
 </project>

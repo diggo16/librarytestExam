@@ -28,7 +28,6 @@ public class BookTest extends TestBase {
     public static void setupClass() {
         System.setProperty("webdriver.chrome.driver", "/home/daniel/seleniumdrivers/chromedriver");
         System.setProperty("selenide.browser", "Chrome");
-        getWebDriver().manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
         open("http://localhost:8080/librarytest/");
         String username = UUID.randomUUID().toString().substring(0, 12);
         String password = UUID.randomUUID().toString().substring(0, 12);

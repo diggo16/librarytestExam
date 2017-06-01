@@ -33,8 +33,6 @@ public class AdminTest{
     public static void setupClass() {
         System.setProperty("webdriver.chrome.driver", "/home/daniel/seleniumdrivers/chromedriver");
         System.setProperty("selenide.browser", "Chrome");
-        getWebDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        getWebDriver().manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
         open("http://localhost:8080/librarytest/");
         UserHelper.logInAsAdmin();
     }
