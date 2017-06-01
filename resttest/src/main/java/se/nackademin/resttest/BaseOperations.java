@@ -17,6 +17,6 @@ public class BaseOperations {
     protected static final String BASE_URL = "http://localhost:8080/librarytest-rest/";    
     
     public static int getRandomId() {
-        return new Random().nextInt(10000) + 1000;
+        return new Random().nextInt(10000) + 100000;
     }
 }
