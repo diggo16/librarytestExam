@@ -28,7 +28,6 @@ public class UserTest extends TestBase {
     public static void setupClass() {
         System.setProperty("webdriver.chrome.driver", "/home/daniel/seleniumdrivers/chromedriver");
         System.setProperty("selenide.browser", "Chrome");
-        getWebDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         getWebDriver().manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
         
     }
@@ -42,41 +41,7 @@ public class UserTest extends TestBase {
         assertTrue(UserHelper.isLoggedIn());
         
         UserHelper.signOut();
-    }
-    @Test
-    public void logoutUser() {
-        String username = UUID.randomUUID().toString().substring(0, 12);
-        String password = UUID.randomUUID().toString().substring(0, 12);
-        UserHelper.createNewUser(username, password);
-        UserHelper.logInAsUser(username, password);
-        UserHelper.signOut();
-        sleep(3000);
         assertFalse(UserHelper.isLoggedIn());
-    }
-    
-    @Test
-    public void changeUserInfo() {
-        String username = UUID.randomUUID().toString().substring(0, 12);
-        String password = UUID.randomUUID().toString().substring(0, 12);
-        UserHelper.createNewUser(username, password);
-        UserHelper.logInAsUser(username, password);
-        
-        User user = UserHelper.fetchUser();
-        user.setFirstName("Magnus");
-        user.setLastName("Karlsson");
-        user.setEmail("mk@hotmail.com");
-        user.setPhone("070-0001111");
-        
-        UserHelper.setUser(user);
-        
-        User changedUser = UserHelper.fetchUser();
-        
-        assertEquals(user.getFirstName(), changedUser.getFirstName());
-        assertEquals(user.getLastName(), changedUser.getLastName());
-        assertEquals(user.getEmail(), changedUser.getEmail());
-        assertEquals(user.getPhone(), changedUser.getPhone());
-        
-        UserHelper.signOut();
     }
     
 }

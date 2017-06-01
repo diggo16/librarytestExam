@@ -80,27 +80,4 @@ public class AdminTest{
         assertEquals(book.getTotalNbrCopies(),fetchedBook.getTotalNbrCopies());
         assertEquals(book.getDescription(),fetchedBook.getDescription());
     }
-
-    @Test
-    public void testEditBookTitle() {
-        Book book = new Book();
-        String title = UUID.randomUUID().toString().substring(0, 15);
-        String description = "description 1 2 3.";
-        String datePublished = "2000-01-02";
-        int totalNbrCopies = 5;
-        book.setTitle(title);
-        book.setDescription(description);
-        book.setDatePublished(datePublished);
-        book.setTotalNbrCopies(totalNbrCopies);
-        BookHelper.AddBook(book);
-        
-        book.setTitle(UUID.randomUUID().toString().substring(0, 12));
-        BookHelper.setBook(book, title);
-        
-        Book fetchedBook = BookHelper.fetchBook(book.getTitle());
-        assertEquals(book.getTitle(),fetchedBook.getTitle());
-        assertEquals(book.getDatePublished(),fetchedBook.getDatePublished());
-        assertEquals(book.getTotalNbrCopies(),fetchedBook.getTotalNbrCopies());
-        assertEquals(book.getDescription(),fetchedBook.getDescription());
-    }
 }
