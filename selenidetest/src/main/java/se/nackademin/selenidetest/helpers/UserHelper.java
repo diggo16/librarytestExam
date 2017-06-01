@@ -61,7 +61,6 @@ public class UserHelper {
         editUserPage.setPhoneField(user.getPhone());
         editUserPage.setEmailField(user.getEmail());
         editUserPage.clickSaveUserButton();
-        sleep(4000);
         
     }
     
