@@ -9,6 +9,7 @@ import static com.jayway.restassured.RestAssured.delete;
 import static com.jayway.restassured.RestAssured.given;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.path.json.JsonPath;
+import com.jayway.restassured.path.json.exception.JsonPathException;
 import com.jayway.restassured.response.Response;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -104,24 +105,41 @@ public class LoanOperations extends BaseOperations {
     public static List<Loan> getLoansFromResponse(Response response) {
         LOG.log(Level.INFO, "GET loan map list from response");
         List<Loan> loanList = new ArrayList<>();
-        JsonPath jsonPath = response.jsonPath();
-        String path = "loans.loan";
-        
-        if(jsonPath.getInt("loans.size()") == 0) {
+        try {
+            
+            JsonPath jsonPath = response.jsonPath();
+            String path = "loans.loan";
+
+            if(jsonPath.getInt("loans.size()") == 0) {
+                return loanList;
+            }
+            String loanClassName = jsonPath.getString("loans.loan.getClass().getSimpleName()");
+
+            if(loanClassName.equals("HashMap")) {
+                loanList.add(new Loan(jsonPath.getMap(path)));
+            }
+
+            if(loanClassName.equals("ArrayList")) {
+                List<Map> mapList = jsonPath.getList(path);
+                loanList = getLoanListFromMapList(mapList);
+            }
+
+            return loanList;
+        } catch(JsonPathException e) {
+            LOG.log(Level.WARNING, e.getMessage());
             return loanList;
         }
-        String loanClassName = jsonPath.getString("loans.loan.getClass().getSimpleName()");
-
-        if(loanClassName.equals("HashMap")) {
-            loanList.add(new Loan(jsonPath.getMap(path)));
-        }
-       
-        if(loanClassName.equals("ArrayList")) {
-            List<Map> mapList = jsonPath.getList(path);
-            loanList = getLoanListFromMapList(mapList);
-        }
         
-        return loanList;
+    }
+    
+    public static Loan getLoanFromResponse(Response response) {
+        LOG.log(Level.INFO, "GET loan from response");
+        try {
+            return response.jsonPath().getObject("loan", Loan.class);
+        } catch(JsonPathException e) {
+            LOG.log(Level.WARNING, e.getMessage());
+            return null;
+        }
     }
     
     public static Loan createAndGetRandomLoan() {

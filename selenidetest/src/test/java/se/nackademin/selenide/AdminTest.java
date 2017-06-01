@@ -7,7 +7,9 @@ package se.nackademin.selenide;
 
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
@@ -31,6 +33,8 @@ public class AdminTest{
     public static void setupClass() {
         System.setProperty("webdriver.chrome.driver", "/home/daniel/seleniumdrivers/chromedriver");
         System.setProperty("selenide.browser", "Chrome");
+        getWebDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        getWebDriver().manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
         open("http://localhost:8080/librarytest/");
         UserHelper.logInAsAdmin();
     }

@@ -57,6 +57,14 @@ public class AuthorTest extends BaseTest {
         
         AuthorOperations.deleteAuthor(id);
     }
+    @Test
+    public void testPostAuthorThatAlreadyExist() {
+        int id = 4;
+        Author randomAuthor = AuthorOperations.getAuthor(id);
+        SingleAuthor singleAuthor = new SingleAuthor(randomAuthor);
+        Response postResponse = AuthorOperations.postAuthorResponse(singleAuthor);
+        assertEquals("Status code should be 400", 400, postResponse.statusCode());
+    }
     
     @Test
     public void testPutAuthor() {
@@ -84,6 +92,32 @@ public class AuthorTest extends BaseTest {
         
         AuthorOperations.deleteAuthor(id);
     }
+    @Test
+    public void testPutAuthorWithNoFirstName() {
+        int id = new Random().nextInt(1000) + 500;
+        Author randomAuthor = AuthorOperations.createRandomAuthor(id);
+        Author oldAuthor = new Author(randomAuthor);
+        SingleAuthor singleAuthor = new SingleAuthor(randomAuthor);
+        AuthorOperations.postAuthorResponse(singleAuthor);
+        
+        randomAuthor.setFirstName(null);
+        randomAuthor.setLastName("last");
+        randomAuthor.setBio("no Bio");
+        randomAuthor.setCountry("Finland");
+        
+        singleAuthor = new SingleAuthor(randomAuthor);
+        Response putResponse = AuthorOperations.putAuthorResponse(singleAuthor);
+        assertEquals("Status code should be 400", 400, putResponse.statusCode());
+        
+        Author author = AuthorOperations.getAuthor(id);
+        
+        assertEquals(oldAuthor.getFirstName(), author.getFirstName());
+        assertEquals(oldAuthor.getLastName(), author.getLastName());
+        assertEquals(oldAuthor.getCountry(), author.getCountry());
+        assertEquals(oldAuthor.getBio(), author.getBio());
+        
+        AuthorOperations.deleteAuthor(id);
+    }
     
  
     @Test
@@ -94,10 +128,16 @@ public class AuthorTest extends BaseTest {
         AuthorOperations.postAuthorResponse(singleAuthor);
         
         Response getResponse = AuthorOperations.getAuthorResponse(id);
+        assertEquals("Status should be 200", 200, getResponse.statusCode());
         Author author = getResponse.jsonPath().getObject("author", Author.class);
         assertNotNull(author);
         
         AuthorOperations.deleteAuthor(id);
+    }
+    @Test
+    public void testGetAuthorWithInvalidId() {
+        Response getResponse = AuthorOperations.getAuthorResponse(-1);
+        assertEquals("Status should be 404", 404, getResponse.statusCode());
     }
     
     @Test
@@ -105,14 +145,19 @@ public class AuthorTest extends BaseTest {
         int id = new Random().nextInt(1000) + 500;
         Author randomAuthor = AuthorOperations.createRandomAuthor(id);
         SingleAuthor singleAuthor = new SingleAuthor(randomAuthor);
-        Response postResponse = AuthorOperations.postAuthorResponse(singleAuthor);
-        assertEquals("Status code should be 201", 201, postResponse.statusCode());
+        AuthorOperations.postAuthorResponse(singleAuthor);
         
         Response deleteResponse = AuthorOperations.deleteAuthor(id);
         assertEquals("Status code should be 204", 204, deleteResponse.statusCode());
         
         Response getResponse = AuthorOperations.getAuthorResponse(id);
         assertEquals("Status code should be 404", 404, getResponse.statusCode());
+    }
+    
+    @Test
+    public void testDeleteAuthorWithInvalidId() {
+        Response deleteResponse = AuthorOperations.deleteAuthor(-1);
+        assertEquals("Status code should be 404", 404, deleteResponse.statusCode());
     }
     
 }

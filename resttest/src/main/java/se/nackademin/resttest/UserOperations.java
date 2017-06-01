@@ -8,6 +8,7 @@ package se.nackademin.resttest;
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.delete;
 import com.jayway.restassured.http.ContentType;
+import com.jayway.restassured.path.json.exception.JsonPathException;
 import com.jayway.restassured.response.Response;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,7 +98,12 @@ public class UserOperations extends BaseOperations {
     
     public static User getUserFromResponse(Response response) {
         LOG.log(Level.INFO, "GET user from response");
-        return response.jsonPath().getObject("user", User.class);
+        try {
+            return response.jsonPath().getObject("user", User.class);
+        } catch(JsonPathException e) {
+            LOG.log(Level.WARNING, e.getMessage());
+            return null;
+        }
     }
     
     private static Response getResponse(String resourceName) {

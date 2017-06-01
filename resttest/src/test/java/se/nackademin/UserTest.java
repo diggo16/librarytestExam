@@ -50,6 +50,16 @@ public class UserTest extends BaseTest {
         Response deleteResponse = UserOperations.deleteUserResponse(user.getId());
         assertEquals("Status code should be 204", 204, deleteResponse.statusCode());
     }
+    @Test
+    public void testPostUserWithTakenDisplayName() {
+        User user = UserOperations.createRandomUser();
+        user.setDisplayName("admin");
+        Response postResponse = UserOperations.postUserResponse(user);
+        assertEquals("Status code should be 400", 400, postResponse.statusCode());
+        
+        Response getResponse = UserOperations.getUserResponse(user.getId());
+        assertEquals("Status code should be 404", 404, getResponse.statusCode());
+    }
     
     @Test
     public void testPutUser() {
@@ -73,11 +83,43 @@ public class UserTest extends BaseTest {
         Response deleteResponse = UserOperations.deleteUserResponse(user.getId());
         assertEquals("Status code should be 204", 204, deleteResponse.statusCode());
     }
-    
+    @Test
+    public void testPutUserWithTakenDisplayName() {
+        User user = UserOperations.createRandomUser();
+        Response postResponse = UserOperations.postUserResponse(user);
+        assertEquals("Status code should be 201", 201, postResponse.statusCode());
+        
+        String oldFirstName = user.getFirstName();
+        user.setDisplayName("admin");
+        user.setFirstName("Tobias");
+        
+        Response putResponse = UserOperations.putUserResponse(user);
+        assertEquals("Status code should be 400", 400, putResponse.statusCode());
+        
+        Response getResponse = UserOperations.getUserResponse(user.getId());
+        assertEquals("Status code should be 200", 200, getResponse.statusCode());
+        
+        User actualUser = UserOperations.getUserFromResponse(getResponse);
+        
+        assertEquals(oldFirstName, actualUser.getFirstName());
+        
+        Response deleteResponse = UserOperations.deleteUserResponse(user.getId());
+        assertEquals("Status code should be 204", 204, deleteResponse.statusCode());
+    }
+
     @Test
     public void testGetUser() {
         Response getResponse = UserOperations.getUserResponse(13);
         assertEquals("Status code should be 200", 200, getResponse.statusCode());
+        User user = UserOperations.getUserFromResponse(getResponse);
+        assertNotNull(user);
+    }
+    @Test
+    public void testGetUserWithInvalidId() {
+        Response getResponse = UserOperations.getUserResponse(-1);
+        assertEquals("Status code should be 404", 404, getResponse.statusCode());
+        User user = UserOperations.getUserFromResponse(getResponse);
+        assertNull(user);
     }
     
     @Test
@@ -91,6 +133,12 @@ public class UserTest extends BaseTest {
         
         Response getResponse = UserOperations.getUserResponse(user.getId());
         assertEquals("Status code should be 404", 404, getResponse.statusCode());
+    }
+    @Test
+    public void testDeleteUserWithInvalidId() {
+        Response deleteResponse = UserOperations.deleteUserResponse(-1);
+        assertEquals("Status code should be 404", 404, deleteResponse.statusCode());
+
     }
     
 }

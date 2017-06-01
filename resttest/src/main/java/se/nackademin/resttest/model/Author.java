@@ -22,6 +22,14 @@ public class Author {
         lastName = (String) map.get("lastName");
     }
 
+    public Author(Author author) {
+        id = author.id;
+        bio = author.bio;
+        country = author.country;
+        firstName = author.firstName;
+        lastName = author.lastName;
+    }
+
     /**
      * @return the id
      */

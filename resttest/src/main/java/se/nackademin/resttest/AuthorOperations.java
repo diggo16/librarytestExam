@@ -24,12 +24,12 @@ public class AuthorOperations extends BaseOperations {
     
     public static Author createRandomAuthor(Integer id) {
         LOG.log(Level.INFO, "Create random Author with id {0}", id);
-        //int maxLength = 10;
+        int maxLength = 10;
         Author author = new Author();
-        String firstName = "Lasse";//UUID.randomUUID().toString().substring(0, maxLength);
-        String lastName = "Holm";//UUID.randomUUID().toString().substring(0, maxLength);
-        String bio = "bio";//UUID.randomUUID().toString().substring(0, maxLength);
-        String country = "country";//UUID.randomUUID().toString().substring(0, maxLength);
+        String firstName = UUID.randomUUID().toString().substring(0, maxLength);
+        String lastName = UUID.randomUUID().toString().substring(0, maxLength);
+        String bio = UUID.randomUUID().toString().substring(0, maxLength);
+        String country = UUID.randomUUID().toString().substring(0, maxLength);
         author.setFirstName(firstName);
         author.setLastName(lastName);
         author.setBio(bio);
