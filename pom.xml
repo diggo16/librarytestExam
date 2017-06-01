@@ -10,8 +10,6 @@
     <module>librarytest-model</module>
     <module>librarytest-rest</module>
     <module>librarytest-gui</module>
-    <module>resttest</module>
-    <module>selenidetest</module>
   </modules>
   <build>
 	<plugins>
