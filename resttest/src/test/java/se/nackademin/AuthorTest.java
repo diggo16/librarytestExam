@@ -59,9 +59,10 @@ public class AuthorTest extends BaseTest {
     }
     @Test
     public void testPostAuthorThatAlreadyExist() {
-        int id = 4;
-        Author randomAuthor = AuthorOperations.getAuthor(id);
+        int id = new Random().nextInt(1000) + 500;
+        Author randomAuthor = AuthorOperations.createRandomAuthor(id);
         SingleAuthor singleAuthor = new SingleAuthor(randomAuthor);
+        AuthorOperations.postAuthorResponse(singleAuthor);
         Response postResponse = AuthorOperations.postAuthorResponse(singleAuthor);
         assertEquals("Status code should be 400", 400, postResponse.statusCode());
     }
