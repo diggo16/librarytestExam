@@ -12,6 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import se.nackademin.selenidetest.helpers.UserHelper;
@@ -29,6 +30,11 @@ public class UserTest{
         System.setProperty("selenide.browser", "Chrome");
         
     }
+     @Before
+    public void setup() {
+        open("http://localhost:8080/librarytest/");
+    }
+    
     @Test
     public void createAndLoginUser() {
         String username = UUID.randomUUID().toString().substring(0, 12);
@@ -40,6 +46,23 @@ public class UserTest{
         
         UserHelper.signOut();
         assertFalse(UserHelper.isLoggedIn());
+    }
+    
+    @Test
+    public void changeFirstNameOnUser() {
+        String username = UUID.randomUUID().toString().substring(0, 12);
+        String password = UUID.randomUUID().toString().substring(0, 12);
+        UserHelper.createNewUser(username, password);
+        UserHelper.logInAsUser(username, password);
+        
+        User user = UserHelper.fetchUser();
+        user.setFirstName(UUID.randomUUID().toString().substring(0, 6));
+        
+        UserHelper.setUser(user);
+        
+        User newUser = UserHelper.fetchUser();
+        
+        assertEquals(user.getFirstName(), newUser.getFirstName());
     }
     
 }
