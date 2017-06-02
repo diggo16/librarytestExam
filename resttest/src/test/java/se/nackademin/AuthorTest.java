@@ -65,6 +65,8 @@ public class AuthorTest extends BaseTest {
         AuthorOperations.postAuthorResponse(singleAuthor);
         Response postResponse = AuthorOperations.postAuthorResponse(singleAuthor);
         assertEquals("Status code should be 400", 400, postResponse.statusCode());
+        
+        AuthorOperations.deleteAuthor(id);
     }
     
     @Test
