@@ -3,13 +3,11 @@
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.cybercom</groupId>
-  <artifactId>librarytest</artifactId>
+  <artifactId>alltests</artifactId>
   <version>1.0</version>
   <packaging>pom</packaging>
   <modules>
-    <module>librarytest-model</module>
-    <module>librarytest-rest</module>
-    <module>librarytest-gui</module>
-    <module>alltests</module>
+    <module>resttest</module>
+    <module>selenidetest</module>
   </modules>
 </project>

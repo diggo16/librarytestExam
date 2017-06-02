@@ -4,3 +4,6 @@
 /selenidetest/target/
 */build
 */target
+/alltests/resttest/target/
+/alltests/selenidetest/target/
+/alltests/selenidetest/nbproject/
