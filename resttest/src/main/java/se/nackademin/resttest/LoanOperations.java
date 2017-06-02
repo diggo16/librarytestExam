@@ -35,6 +35,7 @@ public class LoanOperations extends BaseOperations {
     
     private static final Logger LOG = Logger.getLogger(UserOperations.class.getName());
     private static Loan randomLoan;
+    private static int userId, bookId, authorId;
     
     public static Response getLoansResponse() {
         LOG.log(Level.INFO, "GET all loans Response");
@@ -144,11 +145,12 @@ public class LoanOperations extends BaseOperations {
     
     public static Loan createAndGetRandomLoan() {
         User user = UserOperations.createRandomUser();
+        userId = user.getId();
         UserOperations.postUserResponse(user);
-        int bookId = new Random().nextInt(10000) + 1000;
+        bookId = new Random().nextInt(10000) + 1000;
         Book book = BookOperations.createRandomBook(bookId);
         
-        int authorId = new Random().nextInt(10000) + 1000;
+        authorId = new Random().nextInt(10000) + 1000;
         Author author = AuthorOperations.createRandomAuthor(authorId);
         SingleAuthor singleAuthor = new SingleAuthor(author);
         AuthorOperations.postAuthorResponse(singleAuthor);
@@ -170,13 +172,11 @@ public class LoanOperations extends BaseOperations {
     }
     
     public static void cleanRandomLoan() {
-        int userId = randomLoan.getUser().getId();
-        int bookId = randomLoan.getBook().getId();
-        
         deleteLoanResponse(randomLoan);
         
         UserOperations.deleteUserResponse(userId);
         BookOperations.deleteBook(bookId);
+        AuthorOperations.deleteAuthor(authorId);
         
         randomLoan = null;
     }

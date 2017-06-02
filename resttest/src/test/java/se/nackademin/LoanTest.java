@@ -64,6 +64,7 @@ public class LoanTest extends BaseTest {
         LoanOperations.deleteLoanResponse(actualLoan);
         
     }
+    //@Ignore
     @Test
     public void testPostLoanWithNonExistingUser() {
         User user = UserOperations.createRandomUser();
@@ -89,8 +90,11 @@ public class LoanTest extends BaseTest {
         Response getResponse = LoanOperations.getLoanResponse(loanId);
         assertEquals("Status code should be 404", 404, getResponse.statusCode());
         
+        BookOperations.deleteBook(bookId);
+        AuthorOperations.deleteAuthor(authorId);
+        
     }
-
+    //@Ignore
     @Test
     public void getLoanById() {
         Loan loan = LoanOperations.createAndGetRandomLoan();
@@ -110,12 +114,13 @@ public class LoanTest extends BaseTest {
         LoanOperations.deleteLoanResponse(loan);
         
     }
+    //@Ignore
     @Test
     public void getLoanByInvalidId() {
         Response getResponse = LoanOperations.getLoanResponse(-1);
         assertEquals("Status code should be 404", 404, getResponse.statusCode());
     }
-
+    //@Ignore
     @Test
     public void deleteLoan() {
         Loan loan = LoanOperations.createAndGetRandomLoan();
@@ -132,6 +137,7 @@ public class LoanTest extends BaseTest {
         LoanOperations.cleanRandomLoan();
         
     }
+    //@Ignore
     @Test
     public void deleteLoanWithInvalidID() {
         Loan loan = new Loan();
@@ -144,6 +150,7 @@ public class LoanTest extends BaseTest {
     /**
      * tests for /loans/ofuser/{user_id}
      */
+    //@Ignore
     @Test
     public void getLoansByUserId() {
         Loan loan = LoanOperations.createAndGetRandomLoan();
@@ -168,6 +175,7 @@ public class LoanTest extends BaseTest {
         LoanOperations.cleanRandomLoan();
         
     }
+    //@Ignore
     @Test
     public void getLoansByInvalidUserId() {
         Response getResponse = LoanOperations.getLoansOfUserResponse(-1);
@@ -180,6 +188,7 @@ public class LoanTest extends BaseTest {
     /**
      * tests of /loans/ofbook/{book_id}
      */
+    //@Ignore
     @Test
     public void getLoansByBookId() {
         Loan loan = LoanOperations.createAndGetRandomLoan();
@@ -204,6 +213,7 @@ public class LoanTest extends BaseTest {
         LoanOperations.cleanRandomLoan();
         
     }
+    //@Ignore
     @Test
     public void getLoansByInvalidBookId() {
         Response getResponse = LoanOperations.getLoansOfBookResponse(-1);
@@ -218,33 +228,35 @@ public class LoanTest extends BaseTest {
     /**
      * tests of /loans/ofuser/{user_id}/ofbook/{book_id}
      */
-        @Test
-        public void getLoansByUserAndBookId() {
-            Loan loan = LoanOperations.createAndGetRandomLoan();
-            int id = LoanOperations.getRandomId();
-            loan.setId(id);
-            Response postResponse = LoanOperations.postLoanResponse(loan);
-            assertEquals("Status code should be 201", 201, postResponse.statusCode());
+    //@Ignore
+    @Test
+    public void getLoansByUserAndBookId() {
+        Loan loan = LoanOperations.createAndGetRandomLoan();
+        int id = LoanOperations.getRandomId();
+        loan.setId(id);
+        Response postResponse = LoanOperations.postLoanResponse(loan);
+        assertEquals("Status code should be 201", 201, postResponse.statusCode());
 
-            Response getResponse = LoanOperations.getLoansOfUserAndBookResponse(loan.getUser().getId(), loan.getBook().getId());
-            assertEquals("Status code should be 200", 200, getResponse.statusCode());
+        Response getResponse = LoanOperations.getLoansOfUserAndBookResponse(loan.getUser().getId(), loan.getBook().getId());
+        assertEquals("Status code should be 200", 200, getResponse.statusCode());
 
-            Loan userAndBookLoan = LoanOperations.getLoanFromResponse(getResponse);
+        Loan userAndBookLoan = LoanOperations.getLoanFromResponse(getResponse);
 
-            assertEquals(loan.getId(), userAndBookLoan.getId());
-            assertEquals(loan.getDateBorrowed(), userAndBookLoan.getDateBorrowed());
-            assertEquals(loan.getDateDue(), userAndBookLoan.getDateDue());
+        assertEquals(loan.getId(), userAndBookLoan.getId());
+        assertEquals(loan.getDateBorrowed(), userAndBookLoan.getDateBorrowed());
+        assertEquals(loan.getDateDue(), userAndBookLoan.getDateDue());
 
-            LoanOperations.deleteLoanResponse(loan);
-            LoanOperations.cleanRandomLoan();
+        LoanOperations.deleteLoanResponse(loan);
+        LoanOperations.cleanRandomLoan();
 
-        }
-        @Test
-        public void getLoansByInvalidUserAndBookId() {
-            Response getResponse = LoanOperations.getLoansOfUserAndBookResponse(-1, -1);
-            assertEquals("Status code should be 404", 404, getResponse.statusCode());
+    }
+    //@Ignore
+    @Test
+    public void getLoansByInvalidUserAndBookId() {
+        Response getResponse = LoanOperations.getLoansOfUserAndBookResponse(-1, -1);
+        assertEquals("Status code should be 404", 404, getResponse.statusCode());
 
-            Loan userAndBookLoan = LoanOperations.getLoanFromResponse(getResponse);
-            assertNull(userAndBookLoan);
-        }
+        Loan userAndBookLoan = LoanOperations.getLoanFromResponse(getResponse);
+        assertNull(userAndBookLoan);
+    }
 }
