@@ -13,7 +13,6 @@ import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
-import se.nackademin.TestBase;
 import se.nackademin.selenidetest.helpers.BookHelper;
 import se.nackademin.selenidetest.helpers.UserHelper;
 import se.nackademin.selenidetest.model.Book;
@@ -24,22 +23,6 @@ import se.nackademin.selenidetest.model.Book;
  */
 public class BookTest extends TestBase {
     
-    @BeforeClass
-    public static void setupClass() {
-        System.setProperty("webdriver.chrome.driver", "/home/daniel/seleniumdrivers/chromedriver");
-        System.setProperty("selenide.browser", "Chrome");
-        open("http://localhost:8080/librarytest/");
-        String username = UUID.randomUUID().toString().substring(0, 12);
-        String password = UUID.randomUUID().toString().substring(0, 12);
-        UserHelper.createNewUser(username, password);
-        UserHelper.logInAsUser(username, password);
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-        UserHelper.signOut();
-    }
-    
     @Test
     public void borrowAndReturnBook() {
         String title = "American Gods";
@@ -48,6 +31,19 @@ public class BookTest extends TestBase {
         assertTrue(BookHelper.isBookBorrowed(title));
         BookHelper.returnBook(title);
         assertFalse(BookHelper.isBookBorrowed(title));
+    }
+    
+    @Test
+    public void fetchBook() {
+        String title = "American Gods";
+        Book book = BookHelper.fetchBook(title);
+        
+        assertEquals(title, book.getTitle());
+        assertEquals("Neil Gaiman", book.getAuthor());
+        assertEquals("0-380-97365-0", book.getIsbn());
+        assertEquals("2001-07-01", book.getDatePublished());
+        
+  
     }
     
 }

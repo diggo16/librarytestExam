@@ -6,40 +6,37 @@
 package se.nackademin.selenide;
 
 import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.sleep;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
+import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import se.nackademin.selenidetest.helpers.UserHelper;
-import se.nackademin.selenidetest.model.User;
 
 /**
  *
  * @author daniel
  */
-public class UserTest{
+public class TestBase {
     
     @BeforeClass
     public static void setupClass() {
         System.setProperty("webdriver.chrome.driver", "/home/daniel/seleniumdrivers/chromedriver");
         System.setProperty("selenide.browser", "Chrome");
-        
-    }
-    @Test
-    public void createAndLoginUser() {
+        open("http://localhost:8080/librarytest/");
         String username = UUID.randomUUID().toString().substring(0, 12);
         String password = UUID.randomUUID().toString().substring(0, 12);
         UserHelper.createNewUser(username, password);
         UserHelper.logInAsUser(username, password);
-        sleep(1000);
-        assertTrue(UserHelper.isLoggedIn());
-        
+    }
+    @Before
+    public void setup() {
+        open("http://localhost:8080/librarytest/");
+    }
+    @AfterClass
+    public static void tearDownClass() {
         UserHelper.signOut();
-        assertFalse(UserHelper.isLoggedIn());
     }
     
 }
