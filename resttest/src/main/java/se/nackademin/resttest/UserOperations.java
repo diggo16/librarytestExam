@@ -28,12 +28,12 @@ public class UserOperations extends BaseOperations {
     private static final Logger LOG = Logger.getLogger(UserOperations.class.getName());
     
     public static Response getUsersResponse() {
-        return getResponse("users");
+        return getResponse(LOG, "users");
     }
     
     public static Response getUserResponse(int id) {       
         String resourceName = "users/" + id;
-        return getResponse(resourceName);
+        return getResponse(LOG, resourceName);
     }
     
     public static List<User> getUsersFromResponse(Response response) {
@@ -65,6 +65,7 @@ public class UserOperations extends BaseOperations {
     }
     
     public static User createRandomUser() {
+        LOG.log(Level.INFO, "Create random user");
         int id = new Random().nextInt(1000) + 500;
         String displayName = "u" + UUID.randomUUID().toString().substring(0, 12);
         String firstName = "f" + UUID.randomUUID().toString().substring(0, 8);
@@ -105,12 +106,5 @@ public class UserOperations extends BaseOperations {
             return null;
         }
     }
-    
-    private static Response getResponse(String resourceName) {
-        LOG.log(Level.INFO, "GET {0}", resourceName);
-        
-        Response getResponse = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
-        return getResponse;
-    }
-    
+  
 }

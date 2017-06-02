@@ -38,45 +38,33 @@ public class LoanOperations extends BaseOperations {
     private static int userId, bookId, authorId;
     
     public static Response getLoansResponse() {
-        LOG.log(Level.INFO, "GET all loans Response");
         String resourceName = "loans";
-        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
-        return response;  
+        return getResponse(LOG, resourceName);
     }
     
     public static Response getLoansOfUserResponse(int userId) {
-        LOG.log(Level.INFO, "GET all loans Response");
         String resourceName = "loans/ofuser/" + userId;
-        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
-        return response;  
+        return getResponse(LOG, resourceName); 
     }
     
     public static Response getLoansOfBookResponse(int bookId) {
-        LOG.log(Level.INFO, "GET all loans Response");
         String resourceName = "loans/ofbook/" + bookId;
-        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
-        return response;  
+        return getResponse(LOG, resourceName); 
     }
     
     public static Response getLoansOfUserAndBookResponse(int userId, int bookId) {
-        LOG.log(Level.INFO, "GET all loans Response");
         String resourceName = "loans/ofuser/" + userId + "/ofbook/" + bookId;
-        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
-        return response;  
+        return getResponse(LOG, resourceName);  
     }
     
     public static Response getLoanResponse(Loan loan) {
-        LOG.log(Level.INFO, "GET loan {0} Response", loan.getId());
         String resourceName = "loans/" + loan.getId();
-        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
-        return response;  
+        return getResponse(LOG, resourceName);
     }
     
     public static Response getLoanResponse(int id) {
-        LOG.log(Level.INFO, "GET loan {0} Response", id);
         String resourceName = "loans/" + id;
-        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
-        return response;  
+        return getResponse(LOG, resourceName); 
     }
     
     public static Response postLoanResponse(Loan loan) {
@@ -144,6 +132,7 @@ public class LoanOperations extends BaseOperations {
     }
     
     public static Loan createAndGetRandomLoan() {
+        LOG.log(Level.INFO, "Create and get a random loan");
         User user = UserOperations.createRandomUser();
         userId = user.getId();
         UserOperations.postUserResponse(user);
@@ -172,6 +161,7 @@ public class LoanOperations extends BaseOperations {
     }
     
     public static void cleanRandomLoan() {
+        LOG.log(Level.INFO, "Delete the random loan from the database");
         deleteLoanResponse(randomLoan);
         
         UserOperations.deleteUserResponse(userId);

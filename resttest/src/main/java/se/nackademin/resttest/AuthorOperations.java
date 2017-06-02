@@ -46,25 +46,17 @@ public class AuthorOperations extends BaseOperations {
     }
     
     public static Response getAuthorResponse(int id) {
-        LOG.log(Level.INFO, "GET author Response with id {0}", id);
         String resourceName = "authors/" + id;
-        String path = BASE_URL + resourceName;
-        LOG.log(Level.INFO, "Path: {0}", path);
-        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
-        return response;
+        return getResponse(LOG, resourceName);
     }
     public static Response getAllAuthorsResponse() {
-        LOG.log(Level.INFO, "GET all authors Response");
         String resourceName = "authors";
-        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
-        return response;
+        return getResponse(LOG, resourceName);
     }
     
     public static Response getAuthorsByBookIdResponse(int id) {
-        LOG.log(Level.INFO, "GET authors of the book with id {0}", id);
         String resourceName = "books/" + Integer.toString(id) + "/authors";
-        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
-        return response;
+        return getResponse(LOG, resourceName);
     }
     
     public static Response postAuthorResponse(SingleAuthor singleAuthor) {

@@ -85,14 +85,6 @@ public class Book<T> {
     public void setAuthor(T author) {
         this.author = author;
     }
-    /**
-     * @param authors the author to set
-     */
-    /*public void setAuthor(List<Author> authors) {
-        System.out.println("set AuthorList");
-        this.authorList = new ArrayList<>();
-        this.authorList = authors;
-    }*/
 
     /**
      * @return the description

@@ -5,9 +5,14 @@
  */
 package se.nackademin.resttest;
 
+import static com.jayway.restassured.RestAssured.given;
+import com.jayway.restassured.http.ContentType;
+import com.jayway.restassured.response.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,5 +23,11 @@ public class BaseOperations {
     
     public static int getRandomId() {
         return new Random().nextInt(10000) + 100000;
+    }
+    protected static Response getResponse(Logger LOG, String resourceName) {
+        LOG.log(Level.INFO, "GET {0}", resourceName);
+        
+        Response getResponse = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
+        return getResponse;
     }
 }

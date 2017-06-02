@@ -19,30 +19,22 @@ import java.util.logging.Logger;
 public class BookOperations extends BaseOperations {
     
 private static final Logger LOG = Logger.getLogger(BookOperations.class.getName());
-private AuthorOperations authorOperations;
 
     public BookOperations() {
-        authorOperations = new AuthorOperations();
     }
     
     public static Response getBookResponse(int id) {
-        LOG.log(Level.INFO, "GET book Response with id {0}", id);
         String resourceName = "books/" + id;
-        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
-        return response;
+        return getResponse(LOG, resourceName);
     }
     public static Response getBooksByAuthorIdResponse(int id) {
-        LOG.log(Level.INFO, "GET books Response by the author with the id {0}", id);
         String resourceName = "books/byauthor/" + Integer.toString(id);
-        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
-        return response;
+        return getResponse(LOG, resourceName);
     }
     
     public static Response getAllBooksResponse() {
-        LOG.log(Level.INFO, "GET all books Response");
         String resourceName = "books";
-        Response response = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
-        return response;
+        return getResponse(LOG, resourceName);
     }
     
     public static Response postBook(SingleBook singleBook) {
