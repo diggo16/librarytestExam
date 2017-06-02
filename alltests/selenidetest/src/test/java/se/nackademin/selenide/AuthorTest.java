@@ -5,15 +5,9 @@
  */
 package se.nackademin.selenide;
 
-import static com.codeborne.selenide.Selenide.open;
-import java.util.UUID;
-import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import se.nackademin.selenidetest.helpers.AuthorHelper;
-import se.nackademin.selenidetest.helpers.UserHelper;
 import se.nackademin.selenidetest.model.Author;
 
 /**

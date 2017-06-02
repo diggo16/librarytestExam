@@ -5,16 +5,9 @@
  */
 package se.nackademin.selenide;
 
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.BeforeClass;
 import se.nackademin.selenidetest.helpers.BookHelper;
-import se.nackademin.selenidetest.helpers.UserHelper;
 import se.nackademin.selenidetest.model.Book;
 
 /**
