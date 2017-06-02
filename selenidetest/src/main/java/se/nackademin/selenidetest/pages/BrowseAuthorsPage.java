@@ -5,6 +5,7 @@
  */
 package se.nackademin.selenidetest.pages;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -36,6 +37,7 @@ public class BrowseAuthorsPage extends MenuPage{
     }
     
     public boolean clickFirstResultName() {
+        firstResultName.waitUntil(Condition.visible, 10000);
         if(!firstResultName.exists()) {
             return false;
         }
