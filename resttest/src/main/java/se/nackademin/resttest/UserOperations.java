@@ -84,18 +84,7 @@ public class UserOperations extends BaseOperations {
         user.setRole(role);
         
         return user;
-    }
-    
-    private static List<User> getUserListFromHashMap(List<HashMap> userHashMapList) {
-        LOG.log(Level.INFO, "GET user list from hash map");
-        List<User> userList = new ArrayList<>();
-        
-        userHashMapList.forEach((bookHashMap)->{
-           User user = new User(bookHashMap);
-           userList.add(user);
-        });
-        return userList;
-    }
+    } 
     
     public static User getUserFromResponse(Response response) {
         LOG.log(Level.INFO, "GET user from response");
@@ -106,5 +95,16 @@ public class UserOperations extends BaseOperations {
             return null;
         }
     }
+    
+    private static List<User> getUserListFromHashMap(List<HashMap> userHashMapList) {
+       LOG.log(Level.INFO, "GET user list from hash map");
+       List<User> userList = new ArrayList<>();
+
+       userHashMapList.forEach((bookHashMap)->{
+          User user = new User(bookHashMap);
+          userList.add(user);
+       });
+       return userList;
+   }
   
 }

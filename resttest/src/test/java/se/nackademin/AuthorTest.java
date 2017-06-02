@@ -5,16 +5,10 @@
  */
 package se.nackademin;
 
-import static com.jayway.restassured.RestAssured.given;
-import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 import se.nackademin.resttest.AuthorOperations;
 import se.nackademin.resttest.model.Author;
 import se.nackademin.resttest.model.single.SingleAuthor;
@@ -23,10 +17,8 @@ import se.nackademin.resttest.model.single.SingleAuthor;
  *
  * @author daniel
  */
-public class AuthorTest extends BaseTest {
+public class AuthorTest {
     
-    public AuthorTest() {
-    }
     @Test
     public void testGetAuthors() {
         Response getResponse = AuthorOperations.getAllAuthorsResponse();
@@ -57,6 +49,7 @@ public class AuthorTest extends BaseTest {
         
         AuthorOperations.deleteAuthor(id);
     }
+    
     @Test
     public void testPostAuthorThatAlreadyExist() {
         int id = AuthorOperations.getRandomId();
@@ -95,6 +88,7 @@ public class AuthorTest extends BaseTest {
         
         AuthorOperations.deleteAuthor(id);
     }
+    
     @Test
     public void testPutAuthorWithNoFirstName() {
         int id = AuthorOperations.getRandomId();
@@ -120,8 +114,7 @@ public class AuthorTest extends BaseTest {
         assertEquals(oldAuthor.getBio(), author.getBio());
         
         AuthorOperations.deleteAuthor(id);
-    }
-    
+    }    
  
     @Test
     public void testGetAuthor() {
@@ -137,6 +130,7 @@ public class AuthorTest extends BaseTest {
         
         AuthorOperations.deleteAuthor(id);
     }
+    
     @Test
     public void testGetAuthorWithInvalidId() {
         Response getResponse = AuthorOperations.getAuthorResponse(-1);

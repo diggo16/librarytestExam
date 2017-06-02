@@ -29,11 +29,7 @@ import se.nackademin.resttest.model.single.SingleBook;
  *
  * @author daniel
  */
-public class LoanTest extends BaseTest {
-    
-    public LoanTest() {
-        
-    }
+public class LoanTest {
 
     @Test
     public void testGetLoans() {
@@ -64,7 +60,7 @@ public class LoanTest extends BaseTest {
         LoanOperations.deleteLoanResponse(actualLoan);
         
     }
-    //@Ignore
+
     @Test
     public void testPostLoanWithNonExistingUser() {
         User user = UserOperations.createRandomUser();
@@ -94,7 +90,7 @@ public class LoanTest extends BaseTest {
         AuthorOperations.deleteAuthor(authorId);
         
     }
-    //@Ignore
+
     @Test
     public void getLoanById() {
         Loan loan = LoanOperations.createAndGetRandomLoan();
@@ -114,13 +110,13 @@ public class LoanTest extends BaseTest {
         LoanOperations.deleteLoanResponse(loan);
         
     }
-    //@Ignore
+
     @Test
     public void getLoanByInvalidId() {
         Response getResponse = LoanOperations.getLoanResponse(-1);
         assertEquals("Status code should be 404", 404, getResponse.statusCode());
     }
-    //@Ignore
+
     @Test
     public void deleteLoan() {
         Loan loan = LoanOperations.createAndGetRandomLoan();
@@ -137,7 +133,7 @@ public class LoanTest extends BaseTest {
         LoanOperations.cleanRandomLoan();
         
     }
-    //@Ignore
+
     @Test
     public void deleteLoanWithInvalidID() {
         Loan loan = new Loan();
@@ -150,7 +146,6 @@ public class LoanTest extends BaseTest {
     /**
      * tests for /loans/ofuser/{user_id}
      */
-    //@Ignore
     @Test
     public void getLoansByUserId() {
         Loan loan = LoanOperations.createAndGetRandomLoan();
@@ -175,7 +170,7 @@ public class LoanTest extends BaseTest {
         LoanOperations.cleanRandomLoan();
         
     }
-    //@Ignore
+
     @Test
     public void getLoansByInvalidUserId() {
         Response getResponse = LoanOperations.getLoansOfUserResponse(-1);
@@ -188,7 +183,6 @@ public class LoanTest extends BaseTest {
     /**
      * tests of /loans/ofbook/{book_id}
      */
-    //@Ignore
     @Test
     public void getLoansByBookId() {
         Loan loan = LoanOperations.createAndGetRandomLoan();
@@ -213,7 +207,7 @@ public class LoanTest extends BaseTest {
         LoanOperations.cleanRandomLoan();
         
     }
-    //@Ignore
+
     @Test
     public void getLoansByInvalidBookId() {
         Response getResponse = LoanOperations.getLoansOfBookResponse(-1);
@@ -228,7 +222,6 @@ public class LoanTest extends BaseTest {
     /**
      * tests of /loans/ofuser/{user_id}/ofbook/{book_id}
      */
-    //@Ignore
     @Test
     public void getLoansByUserAndBookId() {
         Loan loan = LoanOperations.createAndGetRandomLoan();
@@ -250,7 +243,7 @@ public class LoanTest extends BaseTest {
         LoanOperations.cleanRandomLoan();
 
     }
-    //@Ignore
+
     @Test
     public void getLoansByInvalidUserAndBookId() {
         Response getResponse = LoanOperations.getLoansOfUserAndBookResponse(-1, -1);

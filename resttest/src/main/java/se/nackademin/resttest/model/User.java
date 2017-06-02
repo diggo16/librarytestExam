@@ -5,7 +5,6 @@
  */
 package se.nackademin.resttest.model;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**

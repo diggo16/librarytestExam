@@ -1,6 +1,5 @@
 package se.nackademin.resttest.model;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 public class Author {

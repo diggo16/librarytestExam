@@ -11,11 +11,8 @@ import se.nackademin.resttest.model.User;
  *
  * @author daniel
  */
-public class UserTest extends BaseTest {
-    
-    public UserTest() {
-    }
-    
+public class UserTest {
+
     @Test
     public void testGetUsers() {
         Response getResponse = UserOperations.getUsersResponse();
@@ -50,6 +47,7 @@ public class UserTest extends BaseTest {
         Response deleteResponse = UserOperations.deleteUserResponse(user.getId());
         assertEquals("Status code should be 204", 204, deleteResponse.statusCode());
     }
+    
     @Test
     public void testPostUserWithTakenDisplayName() {
         User user = UserOperations.createRandomUser();
@@ -83,6 +81,7 @@ public class UserTest extends BaseTest {
         Response deleteResponse = UserOperations.deleteUserResponse(user.getId());
         assertEquals("Status code should be 204", 204, deleteResponse.statusCode());
     }
+    
     @Test
     public void testPutUserWithTakenDisplayName() {
         User user = UserOperations.createRandomUser();
@@ -114,6 +113,7 @@ public class UserTest extends BaseTest {
         User user = UserOperations.getUserFromResponse(getResponse);
         assertNotNull(user);
     }
+    
     @Test
     public void testGetUserWithInvalidId() {
         Response getResponse = UserOperations.getUserResponse(-1);
@@ -134,6 +134,7 @@ public class UserTest extends BaseTest {
         Response getResponse = UserOperations.getUserResponse(user.getId());
         assertEquals("Status code should be 404", 404, getResponse.statusCode());
     }
+    
     @Test
     public void testDeleteUserWithInvalidId() {
         Response deleteResponse = UserOperations.deleteUserResponse(-1);

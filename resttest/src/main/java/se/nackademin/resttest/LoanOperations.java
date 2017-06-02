@@ -12,7 +12,6 @@ import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.path.json.exception.JsonPathException;
 import com.jayway.restassured.response.Response;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;

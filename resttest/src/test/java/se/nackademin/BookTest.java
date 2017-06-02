@@ -6,15 +6,13 @@ import com.jayway.restassured.response.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 import se.nackademin.resttest.AuthorOperations;
 import se.nackademin.resttest.BookOperations;
 import se.nackademin.resttest.model.*;
 
-public class BookTest extends BaseTest {
+public class BookTest {
 
     
     public BookTest() {
@@ -23,7 +21,7 @@ public class BookTest extends BaseTest {
     /**
      * Tests for "/books"
      */
-    //@Ignore
+
     @Test
     public void testFetchBooks() {
         Response response = BookOperations.getAllBooksResponse();
@@ -34,7 +32,7 @@ public class BookTest extends BaseTest {
             assertNotNull(book);
         });
     }
-    //@Ignore
+
     @Test
     public void testPostBook() {
         
@@ -69,7 +67,7 @@ public class BookTest extends BaseTest {
         AuthorOperations.deleteAuthor(authorId);
 
     }
-    //@Ignore
+
     @Test
     public void testPostBookWithTakenId() {
         
@@ -92,7 +90,7 @@ public class BookTest extends BaseTest {
         AuthorOperations.deleteAuthor(authorId);
 
     }
-    //@Ignore
+
     @Test
     public void testPutBook() {
         int authorId = BookOperations.getRandomId();
@@ -123,7 +121,7 @@ public class BookTest extends BaseTest {
         BookOperations.deleteBook(id);
         AuthorOperations.deleteAuthor(authorId);
     }
-    //@Ignore
+
     @Test
     public void testPutBookWithNoTitle() {
         
@@ -143,7 +141,7 @@ public class BookTest extends BaseTest {
     /**
      * Tests for "/books/{id}"
      */
-    //@Ignore
+
     @Test
     public void testFetchBook() {
         int authorId = BookOperations.getRandomId();
@@ -180,14 +178,13 @@ public class BookTest extends BaseTest {
         AuthorOperations.deleteAuthor(authorId);
        
     }
-    //@Ignore
+
     @Test
     public void testFetchBookWithInvalidId() {
         Response response = BookOperations.getBookResponse(-1);
         assertEquals("Status code should be 404", 404, response.statusCode());
     }
     
-    //@Ignore
     @Test
     public void testDeleteBook() {
         int id = BookOperations.getRandomId();
@@ -207,16 +204,16 @@ public class BookTest extends BaseTest {
         Response getResponse = BookOperations.getBookResponse(id);
         assertEquals("Status code should be 404", 404, getResponse.statusCode());
     }
-    //@Ignore
+
     @Test
     public void testDeleteBookWithInvalidId() {
         Response deleteResponse = BookOperations.deleteBook(-1);
         assertEquals("Status code should be 404", 404, deleteResponse.statusCode());
     }
-        /**
+    
+    /**
      * Tests for "/books/byauthor/{author_id}"
      */
-    //@Ignore
     @Test
     public void testGetBooksByAuthor() {
         
@@ -266,7 +263,6 @@ public class BookTest extends BaseTest {
     /**
      * Tests for "/books/{book_id}/authors"
      */
-    //@Ignore
     @Test
     public void testGetAuthorsByBookId () {
         
@@ -305,7 +301,7 @@ public class BookTest extends BaseTest {
             AuthorOperations.deleteAuthor(author.getId());
         });
     }
-    //@Ignore
+
     @Test
     public void testGetAuthorsByBookInvalidId () {
 
@@ -314,7 +310,6 @@ public class BookTest extends BaseTest {
 
     }
     
-    //@Ignore
     @Test
     public void testPostAuthorToBook() {
         
@@ -363,7 +358,7 @@ public class BookTest extends BaseTest {
             AuthorOperations.deleteAuthor(author.getId());
         });
     }
-    //@Ignore
+
     @Test
     public void testPostAuthorThatAlreadyExistToBook() {
         
@@ -393,7 +388,7 @@ public class BookTest extends BaseTest {
             AuthorOperations.deleteAuthor(author.getId());
         });
     }
-    //@Ignore
+
     @Test
     public void testPutAuthorOnBook() {
         
@@ -451,7 +446,7 @@ public class BookTest extends BaseTest {
             AuthorOperations.deleteAuthor(authorId);
         });
     }
-    //@Ignore
+
     @Test
     public void testPutEmptyAuthorsOnBook() {
         
@@ -483,8 +478,5 @@ public class BookTest extends BaseTest {
         expectedAuthors.forEach((author)->{
             AuthorOperations.deleteAuthor(author.getId());
         });
-        
-        
-    }
-    
+    }   
 }
